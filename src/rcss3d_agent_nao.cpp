@@ -16,6 +16,7 @@
 #include <memory>
 #include "rcss3d_agent_nao/rcss3d_agent_nao.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
+#include "./sim_to_nao.hpp"
 
 namespace rcss3d_agent_nao
 {
@@ -67,21 +68,13 @@ void Rcss3dAgentNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & per
 {
   for (auto & gyroRate : percept.gyro_rates) {
     if (gyroRate.name == "torso") {
-      nao_sensor_msgs::msg::Gyroscope msg;
-      msg.x = gyroRate.x;
-      msg.y = gyroRate.y;
-      msg.z = gyroRate.z;
-      gyroscopePub->publish(msg);
+      gyroscopePub->publish(sim_to_nao::getGyroscope(gyroRate));
     }
   }
 
   for (auto & accelerometer : percept.accelerometers) {
     if (accelerometer.name == "torso") {
-      nao_sensor_msgs::msg::Accelerometer msg;
-      msg.x = accelerometer.x;
-      msg.y = accelerometer.y;
-      msg.z = accelerometer.z;
-      accelerometerPub->publish(msg);
+      accelerometerPub->publish(sim_to_nao::getAccelerometer(accelerometer));
     }
   }
 }

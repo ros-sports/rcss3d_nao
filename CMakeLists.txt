@@ -11,9 +11,15 @@ find_package(rcss3d_agent REQUIRED)
 find_package(nao_command_msgs REQUIRED)
 find_package(nao_sensor_msgs REQUIRED)
 
+add_library(rcss3d_agent_nao_lib
+  src/sim_to_nao.cpp)
+ament_target_dependencies(rcss3d_agent_nao_lib
+  nao_sensor_msgs
+  rcss3d_agent_msgs)
+
 add_executable(rcss3d_agent_nao
-  src/rcss3d_agent_nao.cpp
-  src/main.cpp)
+  src/main.cpp
+  src/rcss3d_agent_nao.cpp)
 target_include_directories(rcss3d_agent_nao PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
@@ -21,6 +27,8 @@ ament_target_dependencies(rcss3d_agent_nao
   rcss3d_agent
   nao_command_msgs
   nao_sensor_msgs)
+target_link_libraries(rcss3d_agent_nao
+  rcss3d_agent_nao_lib)
 
 install(
   DIRECTORY include/
@@ -32,6 +40,9 @@ install(TARGETS rcss3d_agent_nao
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  add_subdirectory(test)
+
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
