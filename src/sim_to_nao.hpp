@@ -20,9 +20,11 @@
 #include "nao_sensor_msgs/msg/joint_positions.hpp"
 #include "nao_sensor_msgs/msg/accelerometer.hpp"
 #include "nao_sensor_msgs/msg/gyroscope.hpp"
+#include "nao_sensor_msgs/msg/fsr.hpp"
 #include "rcss3d_agent_msgs/msg/accelerometer.hpp"
 #include "rcss3d_agent_msgs/msg/gyro_rate.hpp"
 #include "rcss3d_agent_msgs/msg/hinge_joint_pos.hpp"
+#include "rcss3d_agent_msgs/msg/force_resistance.hpp"
 
 namespace rcss3d_nao
 {
@@ -37,6 +39,10 @@ nao_sensor_msgs::msg::Accelerometer getAccelerometer(
 
 nao_sensor_msgs::msg::Gyroscope getGyroscope(
   const rcss3d_agent_msgs::msg::GyroRate & gyroRate);
+
+nao_sensor_msgs::msg::FSR getFSR(
+  const rcss3d_agent_msgs::msg::ForceResistance & leftForceResistance,
+  const rcss3d_agent_msgs::msg::ForceResistance & rightForceResistance);
 
 }  // namespace sim_to_nao
 }  // namespace rcss3d_nao

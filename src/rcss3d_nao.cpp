@@ -125,6 +125,18 @@ void Rcss3dNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
   for (auto & hingeJointVel : nao_to_sim::getHingeJointVels(naoJointVelocities)) {
     rcss3dAgent->sendHingeJointVel(hingeJointVel);
   }
+
+  // FSR
+  rcss3d_agent_msgs::msg::ForceResistance leftForceResistance;
+  rcss3d_agent_msgs::msg::ForceResistance rightForceResistance;
+  for (auto & forceResistance : percept.force_resistances) {
+    if (forceResistance.name == "lf") {
+      leftForceResistance = forceResistance;
+    } else if (forceResistance.name == "rf") {
+      rightForceResistance = forceResistance;
+    }
+  }
+  fsrPub->publish(sim_to_nao::getFSR(leftForceResistance, rightForceResistance));
 }
 
 }  // namespace rcss3d_nao

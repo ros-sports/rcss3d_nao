@@ -108,5 +108,25 @@ nao_sensor_msgs::msg::Gyroscope getGyroscope(
   return gyr;
 }
 
+nao_sensor_msgs::msg::FSR getFSR(
+  const rcss3d_agent_msgs::msg::ForceResistance & leftForceResistance,
+  const rcss3d_agent_msgs::msg::ForceResistance & rightForceResistance)
+{
+  // Simply copy the force Z vector into front/back, left/right sensors
+  // Future improvement to get more accurate readings would be good, but this
+  // is good enough for now to simply figure out which foot is experiencing
+  // more of the robot's weight.
+  nao_sensor_msgs::msg::FSR fsr;
+  fsr.l_foot_front_left = leftForceResistance.fz;
+  fsr.l_foot_front_right = leftForceResistance.fz;
+  fsr.l_foot_back_left = leftForceResistance.fz;
+  fsr.l_foot_back_right = leftForceResistance.fz;
+  fsr.r_foot_front_left = rightForceResistance.fz;
+  fsr.r_foot_front_right = rightForceResistance.fz;
+  fsr.r_foot_back_left = rightForceResistance.fz;
+  fsr.r_foot_back_right = rightForceResistance.fz;
+  return fsr;
+}
+
 }  // namespace sim_to_nao
 }  // namespace rcss3d_nao
