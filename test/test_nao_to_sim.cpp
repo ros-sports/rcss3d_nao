@@ -45,7 +45,7 @@ TEST(TestJointsNaoToSim, TestOneJoint)
   NaoJointVelocities naoJointVelocities{};
   naoJointVelocities.at(nao_command_msgs::msg::JointIndexes::LHIPROLL) = 0.4;
 
-  auto convertedVels = rcss3d_agent_nao::nao_to_sim::getHingeJointVels(naoJointVelocities);
+  auto convertedVels = rcss3d_nao::nao_to_sim::getHingeJointVels(naoJointVelocities);
 
   rcss3d_agent_msgs::msg::HingeJointVel j;
   j.name = "lle2";
@@ -58,7 +58,7 @@ TEST(TestJointsNaoToSim, TestOneJointInversion)
   NaoJointVelocities naoJointVelocities{};
   naoJointVelocities.at(nao_command_msgs::msg::JointIndexes::LHIPPITCH) = 0.6;
 
-  auto convertedVels = rcss3d_agent_nao::nao_to_sim::getHingeJointVels(naoJointVelocities);
+  auto convertedVels = rcss3d_nao::nao_to_sim::getHingeJointVels(naoJointVelocities);
 
   rcss3d_agent_msgs::msg::HingeJointVel j;
   j.name = "lle3";
@@ -127,7 +127,7 @@ TEST(TestJointsNaoToSim, Test)
   for (auto j : naoJointVelocitiesVec) {
     naoJointVelocities.at(j.first) = j.second;
   }
-  auto convertedVels = rcss3d_agent_nao::nao_to_sim::getHingeJointVels(naoJointVelocities);
+  auto convertedVels = rcss3d_nao::nao_to_sim::getHingeJointVels(naoJointVelocities);
 
   for (auto const & [name, velocity] : expectedHingeJointVelsMap) {
     rcss3d_agent_msgs::msg::HingeJointVel j;

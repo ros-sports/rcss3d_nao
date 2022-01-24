@@ -18,7 +18,7 @@
 #include <type_traits>
 #include <array>
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 template<typename T, int S,
@@ -56,6 +56,6 @@ private:
   float D;
 };
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
 #endif  // JOINT_PID_HPP_

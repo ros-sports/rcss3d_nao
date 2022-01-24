@@ -14,12 +14,12 @@
 
 #include <memory>
 #include "rclcpp/rclcpp.hpp"
-#include "rcss3d_agent_nao/rcss3d_agent_nao.hpp"
+#include "rcss3d_nao/rcss3d_nao.hpp"
 
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<rcss3d_agent_nao::Rcss3dAgentNao>());
+  rclcpp::spin(std::make_shared<rcss3d_nao::Rcss3dAgentNao>());
   rclcpp::shutdown();
   return 0;
 }

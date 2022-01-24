@@ -20,7 +20,7 @@
 #include "nao_sensor_msgs/msg/joint_indexes.hpp"
 #include "./angle_conversion.hpp"
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 namespace sim_to_nao
 {
@@ -82,7 +82,7 @@ nao_sensor_msgs::msg::JointPositions getJointPositions(
       }
 
       naoJoints.positions[joint_index] =
-        rcss3d_agent_nao::angle_conversion::deg2rad(sim_joint_position);
+        rcss3d_nao::angle_conversion::deg2rad(sim_joint_position);
     }
   }
   return naoJoints;
@@ -109,4 +109,4 @@ nao_sensor_msgs::msg::Gyroscope getGyroscope(
 }
 
 }  // namespace sim_to_nao
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao

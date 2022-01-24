@@ -21,13 +21,13 @@
 #include "nao_sensor_msgs/msg/joint_indexes.hpp"
 #include "../src/angle_conversion.hpp"
 
-using rcss3d_agent_nao::angle_conversion::deg2rad;
+using rcss3d_nao::angle_conversion::deg2rad;
 
 void test(
   const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & simJoints,
   const std::map<int, float> & expected)
 {
-  auto converted = rcss3d_agent_nao::sim_to_nao::getJointPositions(simJoints);
+  auto converted = rcss3d_nao::sim_to_nao::getJointPositions(simJoints);
 
   for (auto const & [key, val] : expected) {
     EXPECT_EQ(converted.positions.at(key), val);
@@ -107,7 +107,7 @@ TEST(TestSimToNao, TestAccelerometer)
   acc.z = 0.3;
 
   nao_sensor_msgs::msg::Accelerometer convertedAccelerometer =
-    rcss3d_agent_nao::sim_to_nao::getAccelerometer(acc);
+    rcss3d_nao::sim_to_nao::getAccelerometer(acc);
   EXPECT_NEAR(convertedAccelerometer.x, 0.2, 0.001);
   EXPECT_NEAR(convertedAccelerometer.y, -0.1, 0.001);
   EXPECT_NEAR(convertedAccelerometer.z, 0.3, 0.001);
@@ -122,7 +122,7 @@ TEST(TestSimToNao, TestGyroscope)
   gyr.z = 0.3;
 
   nao_sensor_msgs::msg::Gyroscope convertedGyroscope =
-    rcss3d_agent_nao::sim_to_nao::getGyroscope(gyr);
+    rcss3d_nao::sim_to_nao::getGyroscope(gyr);
   EXPECT_NEAR(convertedGyroscope.x, 0.2 * 3.14159 / 180.0, 0.001);
   EXPECT_NEAR(convertedGyroscope.y, -0.1 * 3.14159 / 180.0, 0.001);
   EXPECT_NEAR(convertedGyroscope.z, 0.3 * 3.14159 / 180.0, 0.001);

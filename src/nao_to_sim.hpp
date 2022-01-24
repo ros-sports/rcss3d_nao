@@ -20,7 +20,7 @@
 #include "rcss3d_agent_msgs/msg/hinge_joint_vel.hpp"
 #include "./nao_joint_velocities.hpp"
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 namespace nao_to_sim
 {
@@ -29,6 +29,6 @@ std::vector<rcss3d_agent_msgs::msg::HingeJointVel> getHingeJointVels(
   const NaoJointVelocities & naoJoints);
 
 }  // namespace nao_to_sim
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
 #endif  // NAO_TO_SIM_HPP_

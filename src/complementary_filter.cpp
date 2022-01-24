@@ -23,7 +23,7 @@
 // Using implementation provided here: https://www.youtube.com/watch?v=whSw42XddsU&ab_channel=BrianDouglas
 // Axes of NAO are explained here: http://doc.aldebaran.com/2-1/family/robots/inertial_robot.html
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 nao_sensor_msgs::msg::Angle ComplementaryFilter::update(
@@ -61,4 +61,4 @@ nao_sensor_msgs::msg::Angle ComplementaryFilter::getAngle()
   return angles;
 }
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao

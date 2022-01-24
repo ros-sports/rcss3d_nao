@@ -22,7 +22,7 @@
 #include "./nao_to_sim.hpp"
 #include "nao_command_msgs/msg/joint_indexes.hpp"
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 namespace nao_to_sim
@@ -108,4 +108,4 @@ std::vector<rcss3d_agent_msgs::msg::HingeJointVel> getHingeJointVels(
 
 }  // namespace nao_to_sim
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao

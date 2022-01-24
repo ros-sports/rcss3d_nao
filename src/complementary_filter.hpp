@@ -27,7 +27,7 @@
  *  of such a sensor.
  */
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 class ComplementaryFilter
@@ -58,6 +58,6 @@ private:
   nao_sensor_msgs::msg::Angle getAngle();
 };
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
 #endif  // COMPLEMENTARY_FILTER_HPP_

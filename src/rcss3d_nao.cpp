@@ -14,20 +14,20 @@
 
 #include <string>
 #include <memory>
-#include "rcss3d_agent_nao/rcss3d_agent_nao.hpp"
+#include "rcss3d_nao/rcss3d_nao.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
 #include "./sim_to_nao.hpp"
 #include "./nao_to_sim.hpp"
 #include "./complementary_filter.hpp"
 #include "./nao_joints_pid.hpp"
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
-: rclcpp::Node{"rcss3d_agent_nao", options},
-  complementaryFilter(std::make_unique<rcss3d_agent_nao::ComplementaryFilter>()),
-  naoJointsPid(std::make_unique<rcss3d_agent_nao::NaoJointsPid>())
+: rclcpp::Node{"rcss3d_nao", options},
+  complementaryFilter(std::make_unique<rcss3d_nao::ComplementaryFilter>()),
+  naoJointsPid(std::make_unique<rcss3d_nao::NaoJointsPid>())
 {
   // Declare parameters
   RCLCPP_DEBUG(get_logger(), "Declare parameters");
@@ -127,4 +127,4 @@ void Rcss3dAgentNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & per
   }
 }
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao

@@ -15,7 +15,7 @@
 #ifndef ANGLE_CONVERSION_HPP_
 #define ANGLE_CONVERSION_HPP_
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 namespace angle_conversion
@@ -33,6 +33,6 @@ static constexpr double rad2deg(double rad)
 
 }  // namespace angle_conversion
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
 #endif  // ANGLE_CONVERSION_HPP_

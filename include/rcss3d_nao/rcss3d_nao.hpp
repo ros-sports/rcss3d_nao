@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef RCSS3D_AGENT_NAO__RCSS3D_AGENT_NAO_HPP_
-#define RCSS3D_AGENT_NAO__RCSS3D_AGENT_NAO_HPP_
+#ifndef RCSS3D_NAO__RCSS3D_NAO_HPP_
+#define RCSS3D_NAO__RCSS3D_NAO_HPP_
 
 #include <memory>
 #include <vector>
@@ -35,13 +35,13 @@ namespace rcss3d_agent
 class Rcss3dAgent;
 class Params;
 }
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 class ComplementaryFilter;
 class NaoJointsPid;
 }
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 class Rcss3dAgentNao : public rclcpp::Node
@@ -53,8 +53,8 @@ public:
 private:
   std::unique_ptr<rcss3d_agent::Params> params;
   std::unique_ptr<rcss3d_agent::Rcss3dAgent> rcss3dAgent;
-  std::unique_ptr<rcss3d_agent_nao::ComplementaryFilter> complementaryFilter;
-  std::unique_ptr<rcss3d_agent_nao::NaoJointsPid> naoJointsPid;
+  std::unique_ptr<rcss3d_nao::ComplementaryFilter> complementaryFilter;
+  std::unique_ptr<rcss3d_nao::NaoJointsPid> naoJointsPid;
 
   rclcpp::Publisher<nao_sensor_msgs::msg::Accelerometer>::SharedPtr accelerometerPub;
   rclcpp::Publisher<nao_sensor_msgs::msg::Angle>::SharedPtr anglePub;
@@ -68,6 +68,6 @@ private:
   void perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept);
 };
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
-#endif  // RCSS3D_AGENT_NAO__RCSS3D_AGENT_NAO_HPP_
+#endif  // RCSS3D_NAO__RCSS3D_NAO_HPP_

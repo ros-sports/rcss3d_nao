@@ -18,7 +18,7 @@
 #define I 0.0
 #define D 0.0
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 NaoJointsPid::NaoJointsPid()
@@ -40,4 +40,4 @@ NaoJointVelocities NaoJointsPid::update(const nao_sensor_msgs::msg::JointPositio
   return out;
 }
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao

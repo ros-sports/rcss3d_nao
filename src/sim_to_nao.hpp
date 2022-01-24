@@ -24,7 +24,7 @@
 #include "rcss3d_agent_msgs/msg/gyro_rate.hpp"
 #include "rcss3d_agent_msgs/msg/hinge_joint_pos.hpp"
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 namespace sim_to_nao
 {
@@ -39,7 +39,7 @@ nao_sensor_msgs::msg::Gyroscope getGyroscope(
   const rcss3d_agent_msgs::msg::GyroRate & gyroRate);
 
 }  // namespace sim_to_nao
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
 
 #endif  // SIM_TO_NAO_HPP_

@@ -22,7 +22,7 @@
 #include "nao_command_msgs/msg/joint_indexes.hpp"
 #include "./nao_joint_velocities.hpp"
 
-namespace rcss3d_agent_nao
+namespace rcss3d_nao
 {
 
 class NaoJointsPid
@@ -37,6 +37,6 @@ private:
   nao_sensor_msgs::msg::JointPositions target;
 };
 
-}  // namespace rcss3d_agent_nao
+}  // namespace rcss3d_nao
 
 #endif  // NAO_JOINTS_PID_HPP_
