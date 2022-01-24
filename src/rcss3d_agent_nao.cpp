@@ -17,6 +17,7 @@
 #include "rcss3d_agent_nao/rcss3d_agent_nao.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
 #include "./sim_to_nao.hpp"
+#include "./complementary_filter.hpp"
 
 namespace rcss3d_agent_nao
 {
@@ -34,6 +35,9 @@ Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
   // Create Rcss3dAgent
   params = std::make_unique<rcss3d_agent::Params>(rcss3d_host, rcss3d_port, team, unum);
   rcss3dAgent = std::make_unique<rcss3d_agent::Rcss3dAgent>(*params);
+
+  // Create complementaryFilter
+  complementaryFilter = std::make_unique<rcss3d_agent_nao::ComplementaryFilter>();
 
   // Create publisher
   accelerometerPub =
@@ -66,18 +70,47 @@ Rcss3dAgentNao::~Rcss3dAgentNao()
 
 void Rcss3dAgentNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
 {
+  // Accelerometer, Gyroscope and Angle
+  bool gyrFound = false;
+  bool accFound = false;
+  nao_sensor_msgs::msg::Gyroscope gyr;
+  nao_sensor_msgs::msg::Accelerometer acc;
+
   for (auto & gyroRate : percept.gyro_rates) {
     if (gyroRate.name == "torso") {
-      gyroscopePub->publish(sim_to_nao::getGyroscope(gyroRate));
+      gyrFound = true;
+      gyr = sim_to_nao::getGyroscope(gyroRate);
     }
   }
 
   for (auto & accelerometer : percept.accelerometers) {
     if (accelerometer.name == "torso") {
-      accelerometerPub->publish(sim_to_nao::getAccelerometer(accelerometer));
+      accFound = true;
+      acc = sim_to_nao::getAccelerometer(accelerometer);
     }
   }
 
+  if (gyrFound) {
+    gyroscopePub->publish(gyr);
+  } else {
+    RCLCPP_ERROR(get_logger(), "Torso gyroscope not found in msg from simulator.");
+  }
+
+  if (accFound) {
+    accelerometerPub->publish(acc);
+  } else {
+    RCLCPP_ERROR(get_logger(), "Torso accelerometer not found in msg from simulator.");
+  }
+
+  if (gyrFound && accFound) {
+    float gameTime = percept.game_state.time;
+    rclcpp::Time time(std::floor(gameTime), (gameTime - std::floor(gameTime)) * 1e9);
+    anglePub->publish(complementaryFilter->update(acc, gyr, time));
+  } else {
+    RCLCPP_ERROR(get_logger(), "Failed to compute torso angle.");
+  }
+
+  // Joint Position
   jointPositionsPub->publish(sim_to_nao::getJointPositions(percept.hinge_joints));
 }
 

@@ -16,7 +16,8 @@ find_package(nao_command_msgs REQUIRED)
 find_package(nao_sensor_msgs REQUIRED)
 
 add_library(rcss3d_agent_nao_lib
-  src/sim_to_nao.cpp)
+  src/sim_to_nao.cpp
+  src/complementary_filter.cpp)
 ament_target_dependencies(rcss3d_agent_nao_lib
   nao_sensor_msgs
   rcss3d_agent_msgs)
