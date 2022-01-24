@@ -15,19 +15,22 @@
 #ifndef SIM_TO_NAO_HPP_
 #define SIM_TO_NAO_HPP_
 
+#include <vector>
+
 #include "nao_sensor_msgs/msg/joint_positions.hpp"
 #include "nao_sensor_msgs/msg/accelerometer.hpp"
 #include "nao_sensor_msgs/msg/gyroscope.hpp"
 #include "rcss3d_agent_msgs/msg/accelerometer.hpp"
 #include "rcss3d_agent_msgs/msg/gyro_rate.hpp"
+#include "rcss3d_agent_msgs/msg/hinge_joint_pos.hpp"
 
 namespace rcss3d_agent_nao
 {
 namespace sim_to_nao
 {
 
-// nao_sensor_msgs::msg::JointPositions getJointPositions(
-//   const sensor_msgs::msg::JointState & sim_joints);
+nao_sensor_msgs::msg::JointPositions getJointPositions(
+  const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & sim_joints);
 
 nao_sensor_msgs::msg::Accelerometer getAccelerometer(
   const rcss3d_agent_msgs::msg::Accelerometer & accelerometer);

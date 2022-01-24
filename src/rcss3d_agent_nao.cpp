@@ -77,6 +77,8 @@ void Rcss3dAgentNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & per
       accelerometerPub->publish(sim_to_nao::getAccelerometer(accelerometer));
     }
   }
+
+  jointPositionsPub->publish(sim_to_nao::getJointPositions(percept.hinge_joints));
 }
 
 }  // namespace rcss3d_agent_nao

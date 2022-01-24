@@ -60,33 +60,33 @@ std::vector<int> nao_joints_to_invert = {
   nao_sensor_msgs::msg::JointIndexes::RANKLEPITCH,
   nao_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH};
 
-// nao_sensor_msgs::msg::JointPositions getJointPositions(
-//   const sensor_msgs::msg::JointState & sim_joints)
-// {
-//   auto nao_joints = nao_sensor_msgs::msg::JointPositions{};
+nao_sensor_msgs::msg::JointPositions getJointPositions(
+  const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & sim_joints)
+{
+  auto nao_joints = nao_sensor_msgs::msg::JointPositions{};
 
-//   for (unsigned i = 0; i < sim_joints.name.size(); ++i) {
-//     auto sim_joint_name = sim_joints.name.at(i);
-//     auto it = name_sim_to_nao.find(sim_joint_name);
+  for (auto & sim_joint : sim_joints) {
+    auto it = name_sim_to_nao.find(sim_joint.name);
 
-//     if (it != name_sim_to_nao.end()) {
-//       float joint_index = it->second;
+    if (it != name_sim_to_nao.end()) {
+      float joint_index = it->second;
 
-//       auto sim_joint_position = sim_joints.position.at(i);
+      auto sim_joint_position = sim_joint.ax;
 
-//       if (std::find(
-//           nao_joints_to_invert.begin(),
-//           nao_joints_to_invert.end(),
-//           joint_index) != nao_joints_to_invert.end())
-//       {
-//         sim_joint_position *= -1;
-//       }
+      if (std::find(
+          nao_joints_to_invert.begin(),
+          nao_joints_to_invert.end(),
+          joint_index) != nao_joints_to_invert.end())
+      {
+        sim_joint_position *= -1;
+      }
 
-//       nao_joints.positions[joint_index] = sim_joint_position;
-//     }
-//   }
-//   return nao_joints;
-// }
+      nao_joints.positions[joint_index] =
+        rcss3d_agent_nao::angle_conversion::deg2rad(sim_joint_position);
+    }
+  }
+  return nao_joints;
+}
 
 nao_sensor_msgs::msg::Accelerometer getAccelerometer(
   const rcss3d_agent_msgs::msg::Accelerometer & accelerometer)

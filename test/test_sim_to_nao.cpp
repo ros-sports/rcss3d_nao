@@ -19,80 +19,85 @@
 #include <map>
 #include "../src/sim_to_nao.hpp"
 #include "nao_sensor_msgs/msg/joint_indexes.hpp"
+#include "../src/angle_conversion.hpp"
 
-// void test(
-//   sensor_msgs::msg::JointState sim_joints,
-//   std::map<int, float> expected)
-// {
-//   auto converted = rcss3d_nao::sim_to_nao::getJointPositions(sim_joints);
+using rcss3d_agent_nao::angle_conversion::deg2rad;
 
-//   for (auto const & [key, val] : expected) {
-//     EXPECT_EQ(converted.positions.at(key), val);
-//   }
-// }
+void test(
+  const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & sim_joints,
+  const std::map<int, float> & expected)
+{
+  auto converted = rcss3d_agent_nao::sim_to_nao::getJointPositions(sim_joints);
 
-// TEST(TestSimToNao, Test)
-// {
-//   std::vector<std::pair<std::string, float>> sim_joints_vec = {
-//     {"hj1", -0.01},
-//     {"hj2", -0.02},
-//     {"laj1", 0.01},
-//     {"laj2", 0.02},
-//     {"laj3", 0.03},
-//     {"laj4", 0.04},
-//     {"llj1", 0.05},
-//     {"llj2", 0.06},
-//     {"llj3", 0.07},
-//     {"llj4", 0.08},
-//     {"llj5", 0.09},
-//     {"llj6", 0.10},
-//     {"rlj2", 0.11},
-//     {"rlj3", 0.12},
-//     {"rlj4", 0.13},
-//     {"rlj5", 0.14},
-//     {"rlj6", 0.15},
-//     {"raj1", 0.16},
-//     {"raj2", 0.17},
-//     {"raj3", 0.18},
-//     {"raj4", 0.19}};
+  for (auto const & [key, val] : expected) {
+    EXPECT_EQ(converted.positions.at(key), val);
+  }
+}
 
-//   sensor_msgs::msg::JointState sim_joints;
-//   for (auto const & [name, position] : sim_joints_vec) {
-//     sim_joints.name.push_back(name);
-//     sim_joints.position.push_back(position);
-//   }
+TEST(TestSimToNao, TestJoints)
+{
+  std::vector<std::pair<std::string, float>> sim_joints_vec = {
+    {"hj1", -1.0},
+    {"hj2", -2.0},
+    {"laj1", 1.0},
+    {"laj2", 2.0},
+    {"laj3", 3.0},
+    {"laj4", 4.0},
+    {"llj1", 5.0},
+    {"llj2", 6.0},
+    {"llj3", 7.0},
+    {"llj4", 8.0},
+    {"llj5", 9.0},
+    {"llj6", 10.0},
+    {"rlj2", 11.0},
+    {"rlj3", 12.0},
+    {"rlj4", 13.0},
+    {"rlj5", 14.0},
+    {"rlj6", 15.0},
+    {"raj1", 16.0},
+    {"raj2", 17.0},
+    {"raj3", 18.0},
+    {"raj4", 19.0}};
 
-//   std::map<int, float> expected_nao_joint_positions = {
-//     {nao_sensor_msgs::msg::JointIndexes::HEADYAW, -0.01},
-//     {nao_sensor_msgs::msg::JointIndexes::HEADPITCH, 0.02},
-//     {nao_sensor_msgs::msg::JointIndexes::LSHOULDERPITCH, -0.01},
-//     {nao_sensor_msgs::msg::JointIndexes::LSHOULDERROLL, 0.02},
-//     {nao_sensor_msgs::msg::JointIndexes::LELBOWYAW, 0.03},
-//     {nao_sensor_msgs::msg::JointIndexes::LELBOWROLL, 0.04},
-//     {nao_sensor_msgs::msg::JointIndexes::LHIPYAWPITCH, 0.05},
-//     {nao_sensor_msgs::msg::JointIndexes::LHIPROLL, 0.06},
-//     {nao_sensor_msgs::msg::JointIndexes::LHIPPITCH, -0.07},
-//     {nao_sensor_msgs::msg::JointIndexes::LKNEEPITCH, -0.08},
-//     {nao_sensor_msgs::msg::JointIndexes::LANKLEPITCH, -0.09},
-//     {nao_sensor_msgs::msg::JointIndexes::LANKLEROLL, 0.10},
-//     {nao_sensor_msgs::msg::JointIndexes::RHIPROLL, 0.11},
-//     {nao_sensor_msgs::msg::JointIndexes::RHIPPITCH, -0.12},
-//     {nao_sensor_msgs::msg::JointIndexes::RKNEEPITCH, -0.13},
-//     {nao_sensor_msgs::msg::JointIndexes::RANKLEPITCH, -0.14},
-//     {nao_sensor_msgs::msg::JointIndexes::RANKLEROLL, 0.15},
-//     {nao_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH, -0.16},
-//     {nao_sensor_msgs::msg::JointIndexes::RSHOULDERROLL, 0.17},
-//     {nao_sensor_msgs::msg::JointIndexes::RELBOWYAW, 0.18},
-//     {nao_sensor_msgs::msg::JointIndexes::RELBOWROLL, 0.19},
+  std::vector<rcss3d_agent_msgs::msg::HingeJointPos> sim_joints;
+  for (auto const & [name, position] : sim_joints_vec) {
+    rcss3d_agent_msgs::msg::HingeJointPos hjp;
+    hjp.name = name;
+    hjp.ax = position;
+    sim_joints.push_back(hjp);
+  }
 
-//     // below should be 0 because they don't exist in simulation.
-//     {nao_sensor_msgs::msg::JointIndexes::LWRISTYAW, 0.0},
-//     {nao_sensor_msgs::msg::JointIndexes::RWRISTYAW, 0.0},
-//     {nao_sensor_msgs::msg::JointIndexes::LHAND, 0.0},
-//     {nao_sensor_msgs::msg::JointIndexes::RHAND, 0.0}};
+  std::map<int, float> expected_nao_joint_positions = {
+    {nao_sensor_msgs::msg::JointIndexes::HEADYAW, deg2rad(-1.0)},
+    {nao_sensor_msgs::msg::JointIndexes::HEADPITCH, deg2rad(2.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LSHOULDERPITCH, deg2rad(-1.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LSHOULDERROLL, deg2rad(2.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LELBOWYAW, deg2rad(3.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LELBOWROLL, deg2rad(4.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LHIPYAWPITCH, deg2rad(5.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LHIPROLL, deg2rad(6.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LHIPPITCH, deg2rad(-7.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LKNEEPITCH, deg2rad(-8.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LANKLEPITCH, deg2rad(-9.0)},
+    {nao_sensor_msgs::msg::JointIndexes::LANKLEROLL, deg2rad(10.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RHIPROLL, deg2rad(11.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RHIPPITCH, deg2rad(-12.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RKNEEPITCH, deg2rad(-13.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RANKLEPITCH, deg2rad(-14.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RANKLEROLL, deg2rad(15.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH, deg2rad(-16.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RSHOULDERROLL, deg2rad(17.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RELBOWYAW, deg2rad(18.0)},
+    {nao_sensor_msgs::msg::JointIndexes::RELBOWROLL, deg2rad(19.0)},
 
-//   test(sim_joints, expected_nao_joint_positions);
-// }
+    // below should be 0 because they don't exist in simulation.
+    {nao_sensor_msgs::msg::JointIndexes::LWRISTYAW, 0.0},
+    {nao_sensor_msgs::msg::JointIndexes::RWRISTYAW, 0.0},
+    {nao_sensor_msgs::msg::JointIndexes::LHAND, 0.0},
+    {nao_sensor_msgs::msg::JointIndexes::RHAND, 0.0}};
+
+  test(sim_joints, expected_nao_joint_positions);
+}
 
 TEST(TestSimToNao, TestAccelerometer)
 {
