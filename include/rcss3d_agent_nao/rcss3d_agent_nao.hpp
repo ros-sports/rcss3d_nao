@@ -34,7 +34,11 @@ namespace rcss3d_agent
 class Rcss3dAgent;
 class Params;
 }
-namespace rcss3d_agent_nao {class ComplementaryFilter;}
+namespace rcss3d_agent_nao
+{
+class ComplementaryFilter;
+class NaoJointsPid;
+}
 
 namespace rcss3d_agent_nao
 {
@@ -49,6 +53,7 @@ private:
   std::unique_ptr<rcss3d_agent::Params> params;
   std::unique_ptr<rcss3d_agent::Rcss3dAgent> rcss3dAgent;
   std::unique_ptr<rcss3d_agent_nao::ComplementaryFilter> complementaryFilter;
+  std::unique_ptr<rcss3d_agent_nao::NaoJointsPid> naoJointsPid;
 
   rclcpp::Publisher<nao_sensor_msgs::msg::Accelerometer>::SharedPtr accelerometerPub;
   rclcpp::Publisher<nao_sensor_msgs::msg::Angle>::SharedPtr anglePub;

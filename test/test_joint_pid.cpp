@@ -12,23 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef NAO_TO_SIM_HPP_
-#define NAO_TO_SIM_HPP_
+#include <gtest/gtest.h>
+#include "../src/joint_pid.hpp"
 
-#include <vector>
-#include "nao_command_msgs/msg/joint_indexes.hpp"
-#include "rcss3d_agent_msgs/msg/hinge_joint_vel.hpp"
-#include "./nao_joint_velocities.hpp"
-
-namespace rcss3d_agent_nao
+TEST(TestJointPid, TestDifferentTypes)
 {
-namespace nao_to_sim
-{
+  rcss3d_agent_nao::JointPid<float, 1> pid(2, 0, 0);
+  EXPECT_EQ(8, pid.update(std::array<float, 1>{1}, std::array<float, 1>{5})[0]);
 
-std::vector<rcss3d_agent_msgs::msg::HingeJointVel> getHingeJointVels(
-  const NaoJointVelocities & naoJoints);
-
-}  // namespace nao_to_sim
-}  // namespace rcss3d_agent_nao
-
-#endif  // NAO_TO_SIM_HPP_
+  rcss3d_agent_nao::JointPid<int, 1> pid2(2, 0, 0);
+  EXPECT_EQ(8, pid2.update(std::array<int, 1>{1}, std::array<int, 1>{5})[0]);
+}

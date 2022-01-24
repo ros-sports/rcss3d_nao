@@ -12,34 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SIM_TO_NAO_HPP_
-#define SIM_TO_NAO_HPP_
+#ifndef NAO_JOINTS_PID_HPP_
+#define NAO_JOINTS_PID_HPP_
 
 #include <vector>
-
+#include "./joint_pid.hpp"
+#include "nao_command_msgs/msg/joint_positions.hpp"
 #include "nao_sensor_msgs/msg/joint_positions.hpp"
-#include "nao_sensor_msgs/msg/accelerometer.hpp"
-#include "nao_sensor_msgs/msg/gyroscope.hpp"
-#include "rcss3d_agent_msgs/msg/accelerometer.hpp"
-#include "rcss3d_agent_msgs/msg/gyro_rate.hpp"
-#include "rcss3d_agent_msgs/msg/hinge_joint_pos.hpp"
+#include "nao_command_msgs/msg/joint_indexes.hpp"
+#include "./nao_joint_velocities.hpp"
 
 namespace rcss3d_agent_nao
 {
-namespace sim_to_nao
+
+class NaoJointsPid
 {
+public:
+  NaoJointsPid();
+  void updateTargetFromCommand(const nao_command_msgs::msg::JointPositions & target);
+  NaoJointVelocities update(const nao_sensor_msgs::msg::JointPositions & current);
 
-nao_sensor_msgs::msg::JointPositions getJointPositions(
-  const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & simJoints);
+private:
+  JointPid<float, nao_command_msgs::msg::JointIndexes::NUMJOINTS> jointPid;
+  nao_sensor_msgs::msg::JointPositions target;
+};
 
-nao_sensor_msgs::msg::Accelerometer getAccelerometer(
-  const rcss3d_agent_msgs::msg::Accelerometer & accelerometer);
-
-nao_sensor_msgs::msg::Gyroscope getGyroscope(
-  const rcss3d_agent_msgs::msg::GyroRate & gyroRate);
-
-}  // namespace sim_to_nao
 }  // namespace rcss3d_agent_nao
 
-
-#endif  // SIM_TO_NAO_HPP_
+#endif  // NAO_JOINTS_PID_HPP_

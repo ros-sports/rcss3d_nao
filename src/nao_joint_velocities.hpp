@@ -12,23 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef NAO_TO_SIM_HPP_
-#define NAO_TO_SIM_HPP_
+#ifndef NAO_JOINT_VELOCITIES_HPP_
+#define NAO_JOINT_VELOCITIES_HPP_
 
-#include <vector>
+#include <array>
 #include "nao_command_msgs/msg/joint_indexes.hpp"
-#include "rcss3d_agent_msgs/msg/hinge_joint_vel.hpp"
-#include "./nao_joint_velocities.hpp"
 
-namespace rcss3d_agent_nao
-{
-namespace nao_to_sim
-{
+typedef std::array<float, nao_command_msgs::msg::JointIndexes::NUMJOINTS> NaoJointVelocities;
 
-std::vector<rcss3d_agent_msgs::msg::HingeJointVel> getHingeJointVels(
-  const NaoJointVelocities & naoJoints);
-
-}  // namespace nao_to_sim
-}  // namespace rcss3d_agent_nao
-
-#endif  // NAO_TO_SIM_HPP_
+#endif  // NAO_JOINT_VELOCITIES_HPP_

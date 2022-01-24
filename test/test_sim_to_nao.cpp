@@ -24,10 +24,10 @@
 using rcss3d_agent_nao::angle_conversion::deg2rad;
 
 void test(
-  const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & sim_joints,
+  const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & simJoints,
   const std::map<int, float> & expected)
 {
-  auto converted = rcss3d_agent_nao::sim_to_nao::getJointPositions(sim_joints);
+  auto converted = rcss3d_agent_nao::sim_to_nao::getJointPositions(simJoints);
 
   for (auto const & [key, val] : expected) {
     EXPECT_EQ(converted.positions.at(key), val);
@@ -36,7 +36,7 @@ void test(
 
 TEST(TestSimToNao, TestJoints)
 {
-  std::vector<std::pair<std::string, float>> sim_joints_vec = {
+  std::vector<std::pair<std::string, float>> simJointsVec = {
     {"hj1", -1.0},
     {"hj2", -2.0},
     {"laj1", 1.0},
@@ -59,12 +59,12 @@ TEST(TestSimToNao, TestJoints)
     {"raj3", 18.0},
     {"raj4", 19.0}};
 
-  std::vector<rcss3d_agent_msgs::msg::HingeJointPos> sim_joints;
-  for (auto const & [name, position] : sim_joints_vec) {
+  std::vector<rcss3d_agent_msgs::msg::HingeJointPos> simJoints;
+  for (auto const & [name, position] : simJointsVec) {
     rcss3d_agent_msgs::msg::HingeJointPos hjp;
     hjp.name = name;
     hjp.ax = position;
-    sim_joints.push_back(hjp);
+    simJoints.push_back(hjp);
   }
 
   std::map<int, float> expected_nao_joint_positions = {
@@ -96,7 +96,7 @@ TEST(TestSimToNao, TestJoints)
     {nao_sensor_msgs::msg::JointIndexes::LHAND, 0.0},
     {nao_sensor_msgs::msg::JointIndexes::RHAND, 0.0}};
 
-  test(sim_joints, expected_nao_joint_positions);
+  test(simJoints, expected_nao_joint_positions);
 }
 
 TEST(TestSimToNao, TestAccelerometer)

@@ -17,10 +17,13 @@ find_package(nao_sensor_msgs REQUIRED)
 
 add_library(rcss3d_agent_nao_lib
   src/sim_to_nao.cpp
-  src/complementary_filter.cpp)
+  src/nao_to_sim.cpp
+  src/complementary_filter.cpp
+  src/nao_joints_pid.cpp)
 ament_target_dependencies(rcss3d_agent_nao_lib
   nao_sensor_msgs
-  rcss3d_agent_msgs)
+  nao_command_msgs
+  rcss3d_agent)
 
 add_executable(rcss3d_agent_nao
   src/main.cpp
@@ -28,10 +31,6 @@ add_executable(rcss3d_agent_nao
 target_include_directories(rcss3d_agent_nao PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(rcss3d_agent_nao
-  rcss3d_agent
-  nao_command_msgs
-  nao_sensor_msgs)
 target_link_libraries(rcss3d_agent_nao
   rcss3d_agent_nao_lib)
 

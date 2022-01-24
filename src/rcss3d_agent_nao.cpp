@@ -17,13 +17,17 @@
 #include "rcss3d_agent_nao/rcss3d_agent_nao.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
 #include "./sim_to_nao.hpp"
+#include "./nao_to_sim.hpp"
 #include "./complementary_filter.hpp"
+#include "./nao_joints_pid.hpp"
 
 namespace rcss3d_agent_nao
 {
 
 Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
-: rclcpp::Node{"rcss3d_agent_nao", options}
+: rclcpp::Node{"rcss3d_agent_nao", options},
+  complementaryFilter(std::make_unique<rcss3d_agent_nao::ComplementaryFilter>()),
+  naoJointsPid(std::make_unique<rcss3d_agent_nao::NaoJointsPid>())
 {
   // Declare parameters
   RCLCPP_DEBUG(get_logger(), "Declare parameters");
@@ -35,9 +39,6 @@ Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
   // Create Rcss3dAgent
   params = std::make_unique<rcss3d_agent::Params>(rcss3d_host, rcss3d_port, team, unum);
   rcss3dAgent = std::make_unique<rcss3d_agent::Rcss3dAgent>(*params);
-
-  // Create complementaryFilter
-  complementaryFilter = std::make_unique<rcss3d_agent_nao::ComplementaryFilter>();
 
   // Create publisher
   accelerometerPub =
@@ -60,7 +61,7 @@ Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
     create_subscription<nao_command_msgs::msg::JointPositions>(
     "effectors/joint_positions", 10,
     [this](nao_command_msgs::msg::JointPositions::SharedPtr cmd) {
-      (void) cmd;
+      naoJointsPid->updateTargetFromCommand(*cmd);
     });
 }
 
@@ -111,7 +112,12 @@ void Rcss3dAgentNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & per
   }
 
   // Joint Position
-  jointPositionsPub->publish(sim_to_nao::getJointPositions(percept.hinge_joints));
+  nao_sensor_msgs::msg::JointPositions joints = sim_to_nao::getJointPositions(percept.hinge_joints);
+  jointPositionsPub->publish(joints);
+  auto naoJointVelocities = naoJointsPid->update(joints);
+  for (auto & hingeJointVel : nao_to_sim::getHingeJointVels(naoJointVelocities)) {
+    rcss3dAgent->sendHingeJointVel(hingeJointVel);
+  }
 }
 
 }  // namespace rcss3d_agent_nao
