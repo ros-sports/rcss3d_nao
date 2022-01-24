@@ -63,6 +63,13 @@ Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
     [this](nao_command_msgs::msg::JointPositions::SharedPtr cmd) {
       naoJointsPid->updateTargetFromCommand(*cmd);
     });
+
+  beamSub =
+    create_subscription<rcss3d_agent_msgs::msg::Beam>(
+    "effectors/beam", 10,
+    [this](rcss3d_agent_msgs::msg::Beam::SharedPtr cmd) {
+      rcss3dAgent->sendBeam(*cmd);
+    });
 }
 
 Rcss3dAgentNao::~Rcss3dAgentNao()

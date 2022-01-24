@@ -27,6 +27,7 @@
 #include "nao_sensor_msgs/msg/gyroscope.hpp"
 #include "nao_sensor_msgs/msg/joint_positions.hpp"
 #include "rcss3d_agent_msgs/msg/percept.hpp"
+#include "rcss3d_agent_msgs/msg/beam.hpp"
 
 // Forward Declaration
 namespace rcss3d_agent
@@ -62,6 +63,7 @@ private:
   rclcpp::Publisher<nao_sensor_msgs::msg::JointPositions>::SharedPtr jointPositionsPub;
 
   rclcpp::Subscription<nao_command_msgs::msg::JointPositions>::SharedPtr jointPositionsSub;
+  rclcpp::Subscription<rcss3d_agent_msgs::msg::Beam>::SharedPtr beamSub;
 
   void perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept);
 };
