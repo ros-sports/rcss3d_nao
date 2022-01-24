@@ -19,7 +19,7 @@
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<rcss3d_nao::Rcss3dAgentNao>());
+  rclcpp::spin(std::make_shared<rcss3d_nao::Rcss3dNao>());
   rclcpp::shutdown();
   return 0;
 }

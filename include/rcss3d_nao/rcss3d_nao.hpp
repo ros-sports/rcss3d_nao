@@ -44,11 +44,11 @@ class NaoJointsPid;
 namespace rcss3d_nao
 {
 
-class Rcss3dAgentNao : public rclcpp::Node
+class Rcss3dNao : public rclcpp::Node
 {
 public:
-  explicit Rcss3dAgentNao(const rclcpp::NodeOptions & options = rclcpp::NodeOptions{});
-  virtual ~Rcss3dAgentNao();
+  explicit Rcss3dNao(const rclcpp::NodeOptions & options = rclcpp::NodeOptions{});
+  virtual ~Rcss3dNao();
 
 private:
   std::unique_ptr<rcss3d_agent::Params> params;

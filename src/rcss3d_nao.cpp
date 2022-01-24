@@ -24,7 +24,7 @@
 namespace rcss3d_nao
 {
 
-Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
+Rcss3dNao::Rcss3dNao(const rclcpp::NodeOptions & options)
 : rclcpp::Node{"rcss3d_nao", options},
   complementaryFilter(std::make_unique<rcss3d_nao::ComplementaryFilter>()),
   naoJointsPid(std::make_unique<rcss3d_nao::NaoJointsPid>())
@@ -54,7 +54,7 @@ Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
 
   // Register callback
   rcss3dAgent->registerPerceptCallback(
-    std::bind(&Rcss3dAgentNao::perceptCallback, this, std::placeholders::_1));
+    std::bind(&Rcss3dNao::perceptCallback, this, std::placeholders::_1));
 
   // Subscriptions
   jointPositionsSub =
@@ -72,11 +72,11 @@ Rcss3dAgentNao::Rcss3dAgentNao(const rclcpp::NodeOptions & options)
     });
 }
 
-Rcss3dAgentNao::~Rcss3dAgentNao()
+Rcss3dNao::~Rcss3dNao()
 {
 }
 
-void Rcss3dAgentNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
+void Rcss3dNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
 {
   // Accelerometer, Gyroscope and Angle
   bool gyrFound = false;
