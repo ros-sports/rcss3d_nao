@@ -47,9 +47,9 @@ public:
   }
 
 private:
-  std::array<T, S> current_error_;
-  std::array<T, S> previous_error_;
-  std::array<T, S> cumulative_error_;
+  std::array<T, S> current_error_{};
+  std::array<T, S> previous_error_{};
+  std::array<T, S> cumulative_error_{};
 
   float P;
   float I;
