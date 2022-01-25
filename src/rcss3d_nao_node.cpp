@@ -14,7 +14,7 @@
 
 #include <string>
 #include <memory>
-#include "rcss3d_nao/rcss3d_nao.hpp"
+#include "rcss3d_nao/rcss3d_nao_node.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
 #include "./sim_to_nao.hpp"
 #include "./nao_to_sim.hpp"
@@ -24,8 +24,8 @@
 namespace rcss3d_nao
 {
 
-Rcss3dNao::Rcss3dNao(const rclcpp::NodeOptions & options)
-: rclcpp::Node{"rcss3d_nao", options},
+Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
+: rclcpp::Node{"rcss3d_nao_node", options},
   complementaryFilter(std::make_unique<rcss3d_nao::ComplementaryFilter>()),
   naoJointsPid(std::make_unique<rcss3d_nao::NaoJointsPid>())
 {
@@ -54,7 +54,7 @@ Rcss3dNao::Rcss3dNao(const rclcpp::NodeOptions & options)
 
   // Register callback
   rcss3dAgent->registerPerceptCallback(
-    std::bind(&Rcss3dNao::perceptCallback, this, std::placeholders::_1));
+    std::bind(&Rcss3dNaoNode::perceptCallback, this, std::placeholders::_1));
 
   // Subscriptions
   jointPositionsSub =
@@ -72,11 +72,11 @@ Rcss3dNao::Rcss3dNao(const rclcpp::NodeOptions & options)
     });
 }
 
-Rcss3dNao::~Rcss3dNao()
+Rcss3dNaoNode::~Rcss3dNaoNode()
 {
 }
 
-void Rcss3dNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
+void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
 {
   // Accelerometer, Gyroscope and Angle
   bool gyrFound = false;
@@ -140,3 +140,6 @@ void Rcss3dNao::perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept)
 }
 
 }  // namespace rcss3d_nao
+
+#include "rclcpp_components/register_node_macro.hpp"
+RCLCPP_COMPONENTS_REGISTER_NODE(rcss3d_nao::Rcss3dNaoNode)

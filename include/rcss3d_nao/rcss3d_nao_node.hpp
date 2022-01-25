@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef RCSS3D_NAO__RCSS3D_NAO_HPP_
-#define RCSS3D_NAO__RCSS3D_NAO_HPP_
+#ifndef RCSS3D_NAO__RCSS3D_NAO_NODE_HPP_
+#define RCSS3D_NAO__RCSS3D_NAO_NODE_HPP_
 
 #include <memory>
 #include <vector>
@@ -44,11 +44,11 @@ class NaoJointsPid;
 namespace rcss3d_nao
 {
 
-class Rcss3dNao : public rclcpp::Node
+class Rcss3dNaoNode : public rclcpp::Node
 {
 public:
-  explicit Rcss3dNao(const rclcpp::NodeOptions & options = rclcpp::NodeOptions{});
-  virtual ~Rcss3dNao();
+  explicit Rcss3dNaoNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions{});
+  virtual ~Rcss3dNaoNode();
 
 private:
   std::unique_ptr<rcss3d_agent::Params> params;
@@ -70,4 +70,4 @@ private:
 
 }  // namespace rcss3d_nao
 
-#endif  // RCSS3D_NAO__RCSS3D_NAO_HPP_
+#endif  // RCSS3D_NAO__RCSS3D_NAO_NODE_HPP_

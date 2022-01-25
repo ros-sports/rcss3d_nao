@@ -15,6 +15,7 @@
   <depend>rcss3d_agent</depend>
   <depend>nao_command_msgs</depend>
   <depend>nao_sensor_msgs</depend>
+  <depend>rclcpp_components</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
