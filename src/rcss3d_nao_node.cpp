@@ -16,10 +16,10 @@
 #include <memory>
 #include "rcss3d_nao/rcss3d_nao_node.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
-#include "./sim_to_nao.hpp"
-#include "./nao_to_sim.hpp"
-#include "./complementary_filter.hpp"
-#include "./nao_joints_pid.hpp"
+#include "sim_to_nao.hpp"
+#include "nao_to_sim.hpp"
+#include "complementary_filter.hpp"
+#include "nao_joints_pid.hpp"
 
 namespace rcss3d_nao
 {

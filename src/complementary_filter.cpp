@@ -15,7 +15,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "./complementary_filter.hpp"
+#include "complementary_filter.hpp"
 
 #define ACC_WEIGHT 0.01
 #define GYR_WEIGHT (1.0 - ACC_WEIGHT)

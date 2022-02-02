@@ -16,9 +16,9 @@
 #include <map>
 #include <vector>
 #include <utility>
-#include "./sim_to_nao.hpp"
+#include "sim_to_nao.hpp"
 #include "nao_sensor_msgs/msg/joint_indexes.hpp"
-#include "./angle_conversion.hpp"
+#include "angle_conversion.hpp"
 
 namespace rcss3d_nao
 {

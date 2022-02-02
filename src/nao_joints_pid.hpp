@@ -16,11 +16,11 @@
 #define NAO_JOINTS_PID_HPP_
 
 #include <vector>
-#include "./joint_pid.hpp"
+#include "joint_pid.hpp"
 #include "nao_command_msgs/msg/joint_positions.hpp"
 #include "nao_sensor_msgs/msg/joint_positions.hpp"
 #include "nao_command_msgs/msg/joint_indexes.hpp"
-#include "./nao_joint_velocities.hpp"
+#include "nao_joint_velocities.hpp"
 
 namespace rcss3d_nao
 {

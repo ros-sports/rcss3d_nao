@@ -18,7 +18,7 @@
 #include <vector>
 #include "nao_command_msgs/msg/joint_indexes.hpp"
 #include "rcss3d_agent_msgs/msg/hinge_joint_vel.hpp"
-#include "./nao_joint_velocities.hpp"
+#include "nao_joint_velocities.hpp"
 
 namespace rcss3d_nao
 {

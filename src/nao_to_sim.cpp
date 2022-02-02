@@ -19,7 +19,7 @@
 #include <memory>
 #include "rclcpp/logger.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "./nao_to_sim.hpp"
+#include "nao_to_sim.hpp"
 #include "nao_command_msgs/msg/joint_indexes.hpp"
 
 namespace rcss3d_nao

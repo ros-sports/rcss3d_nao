@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "./nao_joints_pid.hpp"
+#include "nao_joints_pid.hpp"
 
 #define P 28.0
 #define I 0.0
