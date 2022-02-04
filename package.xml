@@ -3,7 +3,7 @@
 <package format="3">
   <name>rcss3d_nao</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>An interface to SimSpark that uses interfaces used by a Nao robot</description>
   <maintainer email="kenjibrameld@gmail.com">ijnek</maintainer>
   <license>Apache License 2.0</license>
 
