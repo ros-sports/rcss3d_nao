@@ -17,6 +17,8 @@
   <depend>nao_command_msgs</depend>
   <depend>nao_sensor_msgs</depend>
   <depend>rclcpp_components</depend>
+  <depend>soccer_vision_3d_msgs</depend>
+  <depend>geometry_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

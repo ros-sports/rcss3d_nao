@@ -15,12 +15,16 @@ find_package(rcss3d_agent REQUIRED)
 find_package(nao_command_msgs REQUIRED)
 find_package(nao_sensor_msgs REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(soccer_vision_3d_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   rcss3d_agent
   nao_command_msgs
   nao_sensor_msgs
-  rclcpp_components)
+  rclcpp_components
+  soccer_vision_3d_msgs
+  geometry_msgs)
 
 # Build
 add_library(${PROJECT_NAME}_node SHARED
@@ -28,7 +32,8 @@ add_library(${PROJECT_NAME}_node SHARED
   src/sim_to_nao.cpp
   src/nao_to_sim.cpp
   src/complementary_filter.cpp
-  src/nao_joints_pid.cpp)
+  src/nao_joints_pid.cpp
+  src/sim_to_soccer_vision_3d)
 target_include_directories(rcss3d_nao_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
