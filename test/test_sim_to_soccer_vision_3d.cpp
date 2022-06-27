@@ -28,15 +28,57 @@ TEST(SimToSoccerVision3D, TestBallArrayNoBall)
 TEST(SimToSoccerVision3D, TestBallArrayOneBall)
 {
   rcss3d_agent_msgs::msg::Ball ball;
-  ball.center.r = 8.51;
-  ball.center.phi = -0.21;
-  ball.center.theta = -0.17;
+  ball.center.r = 1.0;
+  ball.center.phi = 45;
+  ball.center.theta = 45;
 
   auto ballArray = rcss3d_nao::sim_to_soccer_vision_3d::getBallArray(ball);
 
   EXPECT_EQ(ballArray.header.frame_id, "CameraTop_frame");
   EXPECT_EQ(ballArray.balls.size(), 1u);
-  EXPECT_NEAR(ballArray.balls[0].center.x, 8.5099, 0.01);
-  EXPECT_NEAR(ballArray.balls[0].center.y, -0.0312, 0.01);
-  EXPECT_NEAR(ballArray.balls[0].center.z, -0.0252, 0.01);
+  EXPECT_NEAR(ballArray.balls[0].center.x, 0.5, 0.01);
+  EXPECT_NEAR(ballArray.balls[0].center.y, 0.5, 0.01);
+  EXPECT_NEAR(ballArray.balls[0].center.z, 0.7071, 0.01);
+}
+
+TEST(SimToSoccerVision3D, TestGoalpostArrayNoBall)
+{
+  auto goalpostArray = rcss3d_nao::sim_to_soccer_vision_3d::getGoalpostArray({});
+  EXPECT_EQ(goalpostArray.posts.size(), 0u);
+}
+
+TEST(SimToSoccerVision3D, TestGoalpostArrayOneGoalpost)
+{
+  rcss3d_agent_msgs::msg::Goalpost goalpost;
+  goalpost.top.r = 1.0;
+  goalpost.top.phi = 45;
+  goalpost.top.theta = 45;
+
+  auto goalpostArray = rcss3d_nao::sim_to_soccer_vision_3d::getGoalpostArray({goalpost});
+
+  EXPECT_EQ(goalpostArray.header.frame_id, "CameraTop_frame");
+  EXPECT_EQ(goalpostArray.posts.size(), 1u);
+
+  EXPECT_NEAR(goalpostArray.posts[0].bb.center.position.x, 0.5, 0.01);
+  EXPECT_NEAR(goalpostArray.posts[0].bb.center.position.y, 0.5, 0.01);
+  // Must subtract 0.4m (half of the goalpost height) to get the center's z-coordinate
+  // because the top of the goalpost is observed. Note that this calculation doesn't take into
+  // account the orientation of the goalpost, but it seems like this is the best we can do for now.
+  // 0.7071 - 0.4 = 0.3031m
+  EXPECT_NEAR(goalpostArray.posts[0].bb.center.position.z, 0.3031, 0.01);
+
+  // Diameter of the goalpost is 0.1m (this is an estimate, based of SPL rules)
+  EXPECT_NEAR(goalpostArray.posts[0].bb.size.x, 0.1, 0.01);
+  EXPECT_NEAR(goalpostArray.posts[0].bb.size.y, 0.1, 0.01);
+
+  // Height of the goalpost is 0.8m
+  EXPECT_NEAR(goalpostArray.posts[0].bb.size.z, 0.8, 0.01);
+}
+
+TEST(SimToSoccerVision3D, TestGoalpostArrayMultipleGoalposts)
+{
+  std::vector<rcss3d_agent_msgs::msg::Goalpost> goalposts(2);
+
+  auto goalpostArray = rcss3d_nao::sim_to_soccer_vision_3d::getGoalpostArray(goalposts);
+  EXPECT_EQ(goalpostArray.posts.size(), 2u);
 }

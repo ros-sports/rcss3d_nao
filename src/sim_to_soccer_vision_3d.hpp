@@ -16,8 +16,11 @@
 #define SIM_TO_SOCCER_VISION_3D_HPP_
 
 #include <optional>
+#include <vector>
 #include "soccer_vision_3d_msgs/msg/ball_array.hpp"
+#include "soccer_vision_3d_msgs/msg/goalpost_array.hpp"
 #include "rcss3d_agent_msgs/msg/ball.hpp"
+#include "rcss3d_agent_msgs/msg/goalpost.hpp"
 
 namespace rcss3d_nao
 {
@@ -26,6 +29,11 @@ namespace sim_to_soccer_vision_3d
 
 soccer_vision_3d_msgs::msg::BallArray getBallArray(
   const std::optional<rcss3d_agent_msgs::msg::Ball> & ball);
+
+soccer_vision_3d_msgs::msg::GoalpostArray getGoalpostArray(
+  const std::vector<rcss3d_agent_msgs::msg::Goalpost> & goalpost);
+
+// Flag, Fieldlines, Robots
 
 }  // namespace sim_to_soccer_vision_3d
 }  // namespace rcss3d_nao
