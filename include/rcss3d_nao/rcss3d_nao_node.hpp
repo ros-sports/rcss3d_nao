@@ -28,6 +28,7 @@
 #include "nao_sensor_msgs/msg/joint_positions.hpp"
 #include "rcss3d_agent_msgs/msg/percept.hpp"
 #include "rcss3d_agent_msgs/msg/beam.hpp"
+#include "soccer_vision_3d_msgs/msg/ball_array.hpp"
 
 // Forward Declaration
 namespace rcss3d_agent
@@ -61,6 +62,7 @@ private:
   rclcpp::Publisher<nao_sensor_msgs::msg::FSR>::SharedPtr fsrPub;
   rclcpp::Publisher<nao_sensor_msgs::msg::Gyroscope>::SharedPtr gyroscopePub;
   rclcpp::Publisher<nao_sensor_msgs::msg::JointPositions>::SharedPtr jointPositionsPub;
+  rclcpp::Publisher<soccer_vision_3d_msgs::msg::BallArray>::SharedPtr ballArrayPub;
 
   rclcpp::Subscription<nao_command_msgs::msg::JointPositions>::SharedPtr jointPositionsSub;
   rclcpp::Subscription<rcss3d_agent_msgs::msg::Beam>::SharedPtr beamSub;

@@ -20,6 +20,7 @@
 #include "nao_to_sim.hpp"
 #include "complementary_filter.hpp"
 #include "nao_joints_pid.hpp"
+#include "sim_to_soccer_vision_3d.hpp"
 
 namespace rcss3d_nao
 {
@@ -52,6 +53,8 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
     create_publisher<nao_sensor_msgs::msg::Gyroscope>("sensors/gyroscope", 10);
   jointPositionsPub =
     create_publisher<nao_sensor_msgs::msg::JointPositions>("sensors/joint_positions", 10);
+  ballArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::BallArray>("soccer_vision_3d/balls", 10);
 
   // Register callback
   rcss3dAgent->registerPerceptCallback(
@@ -138,6 +141,16 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
     }
   }
   fsrPub->publish(sim_to_nao::getFSR(leftForceResistance, rightForceResistance));
+
+  // Vision
+  if (percept.vision.size() > 0) {
+    auto & vision = percept.vision[0];
+
+    // Ball
+    auto ball = vision.ball.size() > 0 ?
+      std::make_optional<rcss3d_agent_msgs::msg::Ball>(vision.ball[0]) : std::nullopt;
+    ballArrayPub->publish(sim_to_soccer_vision_3d::getBallArray(ball));
+  }
 }
 
 }  // namespace rcss3d_nao
