@@ -69,5 +69,22 @@ soccer_vision_3d_msgs::msg::GoalpostArray getGoalpostArray(
   return goalpostArray;
 }
 
+soccer_vision_3d_msgs::msg::MarkingArray getMarkingArray(
+  const std::vector<rcss3d_agent_msgs::msg::FieldLine> & fieldLines)
+{
+  soccer_vision_3d_msgs::msg::MarkingArray markingArray;
+  markingArray.header.frame_id = "CameraTop_frame";
+  for (auto & fieldLine : fieldLines) {
+    soccer_vision_3d_msgs::msg::MarkingSegment markingSegment;
+    markingSegment.start = rcss3d_nao::polar_to_point(
+      fieldLine.start.r, deg2rad(fieldLine.start.phi), deg2rad(fieldLine.start.theta));
+    markingSegment.end = rcss3d_nao::polar_to_point(
+      fieldLine.end.r, deg2rad(fieldLine.end.phi), deg2rad(fieldLine.end.theta));
+
+    markingArray.segments.push_back(markingSegment);
+  }
+  return markingArray;
+}
+
 }  // namespace sim_to_soccer_vision_3d
 }  // namespace rcss3d_nao

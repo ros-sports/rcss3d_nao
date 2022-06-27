@@ -82,3 +82,38 @@ TEST(SimToSoccerVision3D, TestGoalpostArrayMultipleGoalposts)
   auto goalpostArray = rcss3d_nao::sim_to_soccer_vision_3d::getGoalpostArray(goalposts);
   EXPECT_EQ(goalpostArray.posts.size(), 2u);
 }
+
+TEST(SimToSoccerVision3D, TestGoalpostArrayNoFieldLines)
+{
+  auto markingArray = rcss3d_nao::sim_to_soccer_vision_3d::getMarkingArray({});
+  EXPECT_EQ(markingArray.segments.size(), 0u);
+}
+
+TEST(SimToSoccerVision3D, TestGoalpostArrayOneFieldLine)
+{
+  rcss3d_agent_msgs::msg::FieldLine fieldLine;
+  fieldLine.start.r = 1.0;
+  fieldLine.start.phi = 45;
+  fieldLine.start.theta = 45;
+  fieldLine.end.r = 1.0;
+  fieldLine.end.phi = -45;
+  fieldLine.end.theta = 45;
+
+  auto markingArray = rcss3d_nao::sim_to_soccer_vision_3d::getMarkingArray({fieldLine});
+  EXPECT_EQ(markingArray.header.frame_id, "CameraTop_frame");
+  EXPECT_EQ(markingArray.segments.size(), 1u);
+  EXPECT_NEAR(markingArray.segments[0].start.x, 0.5, 0.01);
+  EXPECT_NEAR(markingArray.segments[0].start.y, 0.5, 0.01);
+  EXPECT_NEAR(markingArray.segments[0].start.z, 0.7071, 0.01);
+  EXPECT_NEAR(markingArray.segments[0].end.x, 0.5, 0.01);
+  EXPECT_NEAR(markingArray.segments[0].end.y, -0.5, 0.01);
+  EXPECT_NEAR(markingArray.segments[0].end.z, 0.7071, 0.01);
+}
+
+TEST(SimToSoccerVision3D, TestGoalpostArrayMultipleFieldLines)
+{
+  std::vector<rcss3d_agent_msgs::msg::FieldLine> fieldLines(2);
+
+  auto markingArray = rcss3d_nao::sim_to_soccer_vision_3d::getMarkingArray(fieldLines);
+  EXPECT_EQ(markingArray.segments.size(), 2u);
+}
