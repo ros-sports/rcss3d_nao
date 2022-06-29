@@ -1,0 +1,5 @@
+repositories:
+  rcss3d_agent:
+    type: git
+    url: https://github.com/ijnek/rcss3d_agent.git
+    version: rolling
