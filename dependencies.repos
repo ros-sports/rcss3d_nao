@@ -1,0 +1,5 @@
+repositories:
+  rcss3d_agent:
+    type: git
+    url: https://github.com/ros-sports/rcss3d_agent.git
+    version: rolling

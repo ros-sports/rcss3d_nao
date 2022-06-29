@@ -16,6 +16,7 @@
 #include <memory>
 #include "rcss3d_nao/rcss3d_nao_node.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
+#include "rcss3d_agent_msgs_to_soccer_interfaces/conversion.hpp"
 #include "sim_to_nao.hpp"
 #include "nao_to_sim.hpp"
 #include "complementary_filter.hpp"
@@ -52,6 +53,14 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
     create_publisher<nao_sensor_msgs::msg::Gyroscope>("sensors/gyroscope", 10);
   jointPositionsPub =
     create_publisher<nao_sensor_msgs::msg::JointPositions>("sensors/joint_positions", 10);
+  ballArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::BallArray>("soccer_vision_3d/balls", 10);
+  goalpostArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::GoalpostArray>("soccer_vision_3d/goalposts", 10);
+  markingArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::MarkingArray>("soccer_vision_3d/markings", 10);
+  robotArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::RobotArray>("soccer_vision_3d/robots", 10);
 
   // Register callback
   rcss3dAgent->registerPerceptCallback(
@@ -138,6 +147,28 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
     }
   }
   fsrPub->publish(sim_to_nao::getFSR(leftForceResistance, rightForceResistance));
+
+  // Vision
+  if (percept.vision.size() > 0) {
+    auto & vision = percept.vision[0];
+
+    // Ball
+    auto ball = vision.ball.size() > 0 ?
+      std::make_optional<rcss3d_agent_msgs::msg::Ball>(vision.ball[0]) : std::nullopt;
+    ballArrayPub->publish(rcss3d_agent_msgs_to_soccer_interfaces::getBallArray(ball));
+
+    // Goalpost
+    goalpostArrayPub->publish(
+      rcss3d_agent_msgs_to_soccer_interfaces::getGoalpostArray(vision.goalposts));
+
+    // Marking
+    markingArrayPub->publish(
+      rcss3d_agent_msgs_to_soccer_interfaces::getMarkingArray(vision.field_lines));
+
+    // Robot
+    robotArrayPub->publish(
+      rcss3d_agent_msgs_to_soccer_interfaces::getRobotArray(vision.players));
+  }
 }
 
 }  // namespace rcss3d_nao

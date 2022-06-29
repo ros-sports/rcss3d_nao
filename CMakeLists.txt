@@ -12,15 +12,21 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rcss3d_agent REQUIRED)
+find_package(rcss3d_agent_msgs_to_soccer_interfaces REQUIRED)
 find_package(nao_command_msgs REQUIRED)
 find_package(nao_sensor_msgs REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(soccer_vision_3d_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   rcss3d_agent
+  rcss3d_agent_msgs_to_soccer_interfaces
   nao_command_msgs
   nao_sensor_msgs
-  rclcpp_components)
+  rclcpp_components
+  soccer_vision_3d_msgs
+  geometry_msgs)
 
 # Build
 add_library(${PROJECT_NAME}_node SHARED
