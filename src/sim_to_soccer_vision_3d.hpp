@@ -20,9 +20,11 @@
 #include "soccer_vision_3d_msgs/msg/ball_array.hpp"
 #include "soccer_vision_3d_msgs/msg/goalpost_array.hpp"
 #include "soccer_vision_3d_msgs/msg/marking_array.hpp"
+#include "soccer_vision_3d_msgs/msg/robot_array.hpp"
 #include "rcss3d_agent_msgs/msg/ball.hpp"
 #include "rcss3d_agent_msgs/msg/goalpost.hpp"
 #include "rcss3d_agent_msgs/msg/field_line.hpp"
+#include "rcss3d_agent_msgs/msg/player.hpp"
 
 namespace rcss3d_nao
 {
@@ -37,6 +39,9 @@ soccer_vision_3d_msgs::msg::GoalpostArray getGoalpostArray(
 
 soccer_vision_3d_msgs::msg::MarkingArray getMarkingArray(
   const std::vector<rcss3d_agent_msgs::msg::FieldLine> & fieldLines);
+
+soccer_vision_3d_msgs::msg::RobotArray getRobotArray(
+  const std::vector<rcss3d_agent_msgs::msg::Player> & players);
 
 }  // namespace sim_to_soccer_vision_3d
 }  // namespace rcss3d_nao

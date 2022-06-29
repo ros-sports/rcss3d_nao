@@ -55,6 +55,12 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
     create_publisher<nao_sensor_msgs::msg::JointPositions>("sensors/joint_positions", 10);
   ballArrayPub =
     create_publisher<soccer_vision_3d_msgs::msg::BallArray>("soccer_vision_3d/balls", 10);
+  goalpostArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::GoalpostArray>("soccer_vision_3d/goalposts", 10);
+  markingArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::MarkingArray>("soccer_vision_3d/markings", 10);
+  robotArrayPub =
+    create_publisher<soccer_vision_3d_msgs::msg::RobotArray>("soccer_vision_3d/robots", 10);
 
   // Register callback
   rcss3dAgent->registerPerceptCallback(
@@ -150,6 +156,15 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
     auto ball = vision.ball.size() > 0 ?
       std::make_optional<rcss3d_agent_msgs::msg::Ball>(vision.ball[0]) : std::nullopt;
     ballArrayPub->publish(sim_to_soccer_vision_3d::getBallArray(ball));
+
+    // Goalpost
+    goalpostArrayPub->publish(sim_to_soccer_vision_3d::getGoalpostArray(vision.goalposts));
+
+    // Marking
+    markingArrayPub->publish(sim_to_soccer_vision_3d::getMarkingArray(vision.field_lines));
+
+    // Robot
+    robotArrayPub->publish(sim_to_soccer_vision_3d::getRobotArray(vision.players));
   }
 }
 

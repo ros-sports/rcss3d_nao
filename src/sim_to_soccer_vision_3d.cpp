@@ -86,5 +86,32 @@ soccer_vision_3d_msgs::msg::MarkingArray getMarkingArray(
   return markingArray;
 }
 
+soccer_vision_3d_msgs::msg::RobotArray getRobotArray(
+  const std::vector<rcss3d_agent_msgs::msg::Player> & players)
+{
+  soccer_vision_3d_msgs::msg::RobotArray robotArray;
+  robotArray.header.frame_id = "CameraTop_frame";
+  for (auto & player : players) {
+    // Only take into account robots that have a head reported, just because this simplifies the
+    // logic. Future improvements to use other body parts are welcome.
+    if (player.head.size() > 0) {
+      soccer_vision_3d_msgs::msg::Robot robot;
+
+      robot.bb.center.position = rcss3d_nao::polar_to_point(
+        player.head[0].r, deg2rad(player.head[0].phi), deg2rad(player.head[0].theta));
+
+      // Diameter of the robot is 0.3m (estimate)
+      robot.bb.size.x = 0.3;
+      robot.bb.size.y = 0.3;
+
+      // Height of the robot is 0.6m (estimate)
+      robot.bb.size.z = 0.6;
+
+      robotArray.robots.push_back(robot);
+    }
+  }
+  return robotArray;
+}
+
 }  // namespace sim_to_soccer_vision_3d
 }  // namespace rcss3d_nao

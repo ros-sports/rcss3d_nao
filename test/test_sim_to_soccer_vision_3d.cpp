@@ -65,7 +65,7 @@ TEST(SimToSoccerVision3D, TestGoalpostArrayOneGoalpost)
   // because the top of the goalpost is observed. Note that this calculation doesn't take into
   // account the orientation of the goalpost, but it seems like this is the best we can do for now.
   // 0.7071 - 0.4 = 0.3031m
-  EXPECT_NEAR(goalpostArray.posts[0].bb.center.position.z, 0.3031, 0.01);
+  EXPECT_NEAR(goalpostArray.posts[0].bb.center.position.z, 0.3071, 0.01);
 
   // Diameter of the goalpost is 0.1m (this is an estimate, based of SPL rules)
   EXPECT_NEAR(goalpostArray.posts[0].bb.size.x, 0.1, 0.01);
@@ -116,4 +116,68 @@ TEST(SimToSoccerVision3D, TestGoalpostArrayMultipleFieldLines)
 
   auto markingArray = rcss3d_nao::sim_to_soccer_vision_3d::getMarkingArray(fieldLines);
   EXPECT_EQ(markingArray.segments.size(), 2u);
+}
+
+TEST(SimToSoccerVision3D, TestRobotArrayNoRobot)
+{
+  auto robotArray = rcss3d_nao::sim_to_soccer_vision_3d::getRobotArray({});
+  EXPECT_EQ(robotArray.robots.size(), 0u);
+}
+
+TEST(SimToSoccerVision3D, TestRobotArrayOneRobotWithHead)
+{
+  rcss3d_agent_msgs::msg::Player player;
+  rcss3d_agent_msgs::msg::Spherical head;
+  head.r = 1.0;
+  head.phi = 45;
+  head.theta = 45;
+  player.head.push_back(head);
+
+  auto robotArray = rcss3d_nao::sim_to_soccer_vision_3d::getRobotArray({player});
+
+  EXPECT_EQ(robotArray.header.frame_id, "CameraTop_frame");
+  EXPECT_EQ(robotArray.robots.size(), 1u);
+
+  EXPECT_NEAR(robotArray.robots[0].bb.center.position.x, 0.5, 0.01);
+  EXPECT_NEAR(robotArray.robots[0].bb.center.position.y, 0.5, 0.01);
+  EXPECT_NEAR(robotArray.robots[0].bb.center.position.z, 0.7071, 0.01);
+
+  // Diameter of the robot is 0.3m (estimate)
+  EXPECT_NEAR(robotArray.robots[0].bb.size.x, 0.3, 0.01);
+  EXPECT_NEAR(robotArray.robots[0].bb.size.y, 0.3, 0.01);
+
+  // Height of the robot is 0.6m (estimate)
+  EXPECT_NEAR(robotArray.robots[0].bb.size.z, 0.6, 0.01);
+}
+
+TEST(SimToSoccerVision3D, TestRobotArrayRobotWithoutHeadShouldntBeCounted)
+{
+  rcss3d_agent_msgs::msg::Spherical spherical;
+  spherical.r = 1.0;
+  spherical.phi = 45;
+  spherical.theta = 45;
+
+  rcss3d_agent_msgs::msg::Player player;
+  player.rlowerarm.push_back(spherical);
+  player.llowerarm.push_back(spherical);
+  player.rfoot.push_back(spherical);
+  player.lfoot.push_back(spherical);
+
+  auto robotArray = rcss3d_nao::sim_to_soccer_vision_3d::getRobotArray({player});
+
+  EXPECT_EQ(robotArray.header.frame_id, "CameraTop_frame");
+  EXPECT_EQ(robotArray.robots.size(), 0u);
+}
+
+TEST(SimToSoccerVision3D, TestRobotArrayMultipleRobots)
+{
+  std::vector<rcss3d_agent_msgs::msg::Player> players;
+  rcss3d_agent_msgs::msg::Player player;
+  player.head.push_back(rcss3d_agent_msgs::msg::Spherical{});
+
+  players.push_back(player);
+  players.push_back(player);
+
+  auto robotArray = rcss3d_nao::sim_to_soccer_vision_3d::getRobotArray(players);
+  EXPECT_EQ(robotArray.robots.size(), 2u);
 }
