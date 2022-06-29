@@ -16,11 +16,11 @@
 #include <memory>
 #include "rcss3d_nao/rcss3d_nao_node.hpp"
 #include "rcss3d_agent/rcss3d_agent.hpp"
+#include "rcss3d_agent_msgs_to_soccer_interfaces/conversion.hpp"
 #include "sim_to_nao.hpp"
 #include "nao_to_sim.hpp"
 #include "complementary_filter.hpp"
 #include "nao_joints_pid.hpp"
-#include "sim_to_soccer_vision_3d.hpp"
 
 namespace rcss3d_nao
 {
@@ -155,16 +155,19 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
     // Ball
     auto ball = vision.ball.size() > 0 ?
       std::make_optional<rcss3d_agent_msgs::msg::Ball>(vision.ball[0]) : std::nullopt;
-    ballArrayPub->publish(sim_to_soccer_vision_3d::getBallArray(ball));
+    ballArrayPub->publish(rcss3d_agent_msgs_to_soccer_interfaces::getBallArray(ball));
 
     // Goalpost
-    goalpostArrayPub->publish(sim_to_soccer_vision_3d::getGoalpostArray(vision.goalposts));
+    goalpostArrayPub->publish(
+      rcss3d_agent_msgs_to_soccer_interfaces::getGoalpostArray(vision.goalposts));
 
     // Marking
-    markingArrayPub->publish(sim_to_soccer_vision_3d::getMarkingArray(vision.field_lines));
+    markingArrayPub->publish(
+      rcss3d_agent_msgs_to_soccer_interfaces::getMarkingArray(vision.field_lines));
 
     // Robot
-    robotArrayPub->publish(sim_to_soccer_vision_3d::getRobotArray(vision.players));
+    robotArrayPub->publish(
+      rcss3d_agent_msgs_to_soccer_interfaces::getRobotArray(vision.players));
   }
 }
 
