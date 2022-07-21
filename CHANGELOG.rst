@@ -2,8 +2,8 @@
 Changelog for package rcss3d_nao
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2022-07-21)
+------------------
 * Remove source build of rcss3d_agent
 * Contributors: Kenji Brameld
 
