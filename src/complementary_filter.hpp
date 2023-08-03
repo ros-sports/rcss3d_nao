@@ -15,9 +15,9 @@
 #ifndef COMPLEMENTARY_FILTER_HPP_
 #define COMPLEMENTARY_FILTER_HPP_
 
-#include "nao_sensor_msgs/msg/angle.hpp"
-#include "nao_sensor_msgs/msg/accelerometer.hpp"
-#include "nao_sensor_msgs/msg/gyroscope.hpp"
+#include "nao_lola_sensor_msgs/msg/angle.hpp"
+#include "nao_lola_sensor_msgs/msg/accelerometer.hpp"
+#include "nao_lola_sensor_msgs/msg/gyroscope.hpp"
 #include "rclcpp/time.hpp"
 
 /*
@@ -43,9 +43,9 @@ public:
   {
   }
 
-  nao_sensor_msgs::msg::Angle update(
-    const nao_sensor_msgs::msg::Accelerometer & acc,
-    const nao_sensor_msgs::msg::Gyroscope & gyr,
+  nao_lola_sensor_msgs::msg::Angle update(
+    const nao_lola_sensor_msgs::msg::Accelerometer & acc,
+    const nao_lola_sensor_msgs::msg::Gyroscope & gyr,
     const rclcpp::Time & time);
 
 private:
@@ -55,7 +55,7 @@ private:
   bool firstUpdate = true;
   rclcpp::Time prev_time_;
 
-  nao_sensor_msgs::msg::Angle getAngle();
+  nao_lola_sensor_msgs::msg::Angle getAngle();
 };
 
 }  // namespace rcss3d_nao

@@ -16,8 +16,8 @@
 #define NAO_JOINT_VELOCITIES_HPP_
 
 #include <array>
-#include "nao_command_msgs/msg/joint_indexes.hpp"
+#include "nao_lola_command_msgs/msg/joint_indexes.hpp"
 
-typedef std::array<float, nao_command_msgs::msg::JointIndexes::NUMJOINTS> NaoJointVelocities;
+typedef std::array<float, nao_lola_command_msgs::msg::JointIndexes::NUMJOINTS> NaoJointVelocities;
 
 #endif  // NAO_JOINT_VELOCITIES_HPP_

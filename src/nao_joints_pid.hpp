@@ -17,9 +17,9 @@
 
 #include <vector>
 #include "joint_pid.hpp"
-#include "nao_command_msgs/msg/joint_positions.hpp"
-#include "nao_sensor_msgs/msg/joint_positions.hpp"
-#include "nao_command_msgs/msg/joint_indexes.hpp"
+#include "nao_lola_command_msgs/msg/joint_positions.hpp"
+#include "nao_lola_sensor_msgs/msg/joint_positions.hpp"
+#include "nao_lola_command_msgs/msg/joint_indexes.hpp"
 #include "nao_joint_velocities.hpp"
 
 namespace rcss3d_nao
@@ -29,12 +29,12 @@ class NaoJointsPid
 {
 public:
   NaoJointsPid();
-  void updateTargetFromCommand(const nao_command_msgs::msg::JointPositions & target);
-  NaoJointVelocities update(const nao_sensor_msgs::msg::JointPositions & current);
+  void updateTargetFromCommand(const nao_lola_command_msgs::msg::JointPositions & target);
+  NaoJointVelocities update(const nao_lola_sensor_msgs::msg::JointPositions & current);
 
 private:
-  JointPid<float, nao_command_msgs::msg::JointIndexes::NUMJOINTS> jointPid;
-  nao_sensor_msgs::msg::JointPositions target;
+  JointPid<float, nao_lola_command_msgs::msg::JointIndexes::NUMJOINTS> jointPid;
+  nao_lola_sensor_msgs::msg::JointPositions target;
 };
 
 }  // namespace rcss3d_nao

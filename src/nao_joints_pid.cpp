@@ -25,7 +25,8 @@ NaoJointsPid::NaoJointsPid()
 : jointPid(P, I, D)
 {}
 
-void NaoJointsPid::updateTargetFromCommand(const nao_command_msgs::msg::JointPositions & target)
+void NaoJointsPid::updateTargetFromCommand(
+  const nao_lola_command_msgs::msg::JointPositions & target)
 {
   for (unsigned i = 0; i < target.indexes.size(); ++i) {
     int index = target.indexes.at(i);
@@ -34,7 +35,7 @@ void NaoJointsPid::updateTargetFromCommand(const nao_command_msgs::msg::JointPos
   }
 }
 
-NaoJointVelocities NaoJointsPid::update(const nao_sensor_msgs::msg::JointPositions & current)
+NaoJointVelocities NaoJointsPid::update(const nao_lola_sensor_msgs::msg::JointPositions & current)
 {
   NaoJointVelocities out = jointPid.update(current.positions, target.positions);
   return out;

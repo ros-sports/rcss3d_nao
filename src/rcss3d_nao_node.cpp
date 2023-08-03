@@ -44,15 +44,15 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
 
   // Create publisher
   accelerometerPub =
-    create_publisher<nao_sensor_msgs::msg::Accelerometer>("sensors/accelerometer", 10);
+    create_publisher<nao_lola_sensor_msgs::msg::Accelerometer>("sensors/accelerometer", 10);
   anglePub =
-    create_publisher<nao_sensor_msgs::msg::Angle>("sensors/angle", 10);
+    create_publisher<nao_lola_sensor_msgs::msg::Angle>("sensors/angle", 10);
   fsrPub =
-    create_publisher<nao_sensor_msgs::msg::FSR>("sensors/fsr", 10);
+    create_publisher<nao_lola_sensor_msgs::msg::FSR>("sensors/fsr", 10);
   gyroscopePub =
-    create_publisher<nao_sensor_msgs::msg::Gyroscope>("sensors/gyroscope", 10);
+    create_publisher<nao_lola_sensor_msgs::msg::Gyroscope>("sensors/gyroscope", 10);
   jointPositionsPub =
-    create_publisher<nao_sensor_msgs::msg::JointPositions>("sensors/joint_positions", 10);
+    create_publisher<nao_lola_sensor_msgs::msg::JointPositions>("sensors/joint_positions", 10);
   ballArrayPub =
     create_publisher<soccer_vision_3d_msgs::msg::BallArray>("soccer_vision_3d/balls", 10);
   goalpostArrayPub =
@@ -68,9 +68,9 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
 
   // Subscriptions
   jointPositionsSub =
-    create_subscription<nao_command_msgs::msg::JointPositions>(
+    create_subscription<nao_lola_command_msgs::msg::JointPositions>(
     "effectors/joint_positions", 10,
-    [this](nao_command_msgs::msg::JointPositions::SharedPtr cmd) {
+    [this](nao_lola_command_msgs::msg::JointPositions::SharedPtr cmd) {
       naoJointsPid->updateTargetFromCommand(*cmd);
     });
 
@@ -91,8 +91,8 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
   // Accelerometer, Gyroscope and Angle
   bool gyrFound = false;
   bool accFound = false;
-  nao_sensor_msgs::msg::Gyroscope gyr;
-  nao_sensor_msgs::msg::Accelerometer acc;
+  nao_lola_sensor_msgs::msg::Gyroscope gyr;
+  nao_lola_sensor_msgs::msg::Accelerometer acc;
 
   for (auto & gyroRate : percept.gyro_rates) {
     if (gyroRate.name == "torso") {
@@ -129,7 +129,8 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
   }
 
   // Joint Position
-  nao_sensor_msgs::msg::JointPositions joints = sim_to_nao::getJointPositions(percept.hinge_joints);
+  nao_lola_sensor_msgs::msg::JointPositions joints = sim_to_nao::getJointPositions(
+    percept.hinge_joints);
   jointPositionsPub->publish(joints);
   auto naoJointVelocities = naoJointsPid->update(joints);
   for (auto & hingeJointVel : nao_to_sim::getHingeJointVels(naoJointVelocities)) {

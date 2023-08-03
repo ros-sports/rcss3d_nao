@@ -20,7 +20,7 @@
 #include "rclcpp/logger.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "nao_to_sim.hpp"
-#include "nao_command_msgs/msg/joint_indexes.hpp"
+#include "nao_lola_command_msgs/msg/joint_indexes.hpp"
 
 namespace rcss3d_nao
 {
@@ -32,39 +32,39 @@ static rclcpp::Logger naoToSimLogger = rclcpp::get_logger("nao_to_sim");
 
 // LWristYaw, LHand, RWristYaw and RHand don't exist in sim so we ignore.
 static const std::map<int, std::string> naoIndexToSimString = {
-  {nao_command_msgs::msg::JointIndexes::HEADYAW, "he1"},
-  {nao_command_msgs::msg::JointIndexes::HEADPITCH, "he2"},
-  {nao_command_msgs::msg::JointIndexes::LSHOULDERPITCH, "lae1"},
-  {nao_command_msgs::msg::JointIndexes::LSHOULDERROLL, "lae2"},
-  {nao_command_msgs::msg::JointIndexes::LELBOWYAW, "lae3"},
-  {nao_command_msgs::msg::JointIndexes::LELBOWROLL, "lae4"},
-  {nao_command_msgs::msg::JointIndexes::LHIPYAWPITCH, "lle1"},
-  {nao_command_msgs::msg::JointIndexes::LHIPROLL, "lle2"},
-  {nao_command_msgs::msg::JointIndexes::LHIPPITCH, "lle3"},
-  {nao_command_msgs::msg::JointIndexes::LKNEEPITCH, "lle4"},
-  {nao_command_msgs::msg::JointIndexes::LANKLEPITCH, "lle5"},
-  {nao_command_msgs::msg::JointIndexes::LANKLEROLL, "lle6"},
-  {nao_command_msgs::msg::JointIndexes::RHIPROLL, "rle2"},
-  {nao_command_msgs::msg::JointIndexes::RHIPPITCH, "rle3"},
-  {nao_command_msgs::msg::JointIndexes::RKNEEPITCH, "rle4"},
-  {nao_command_msgs::msg::JointIndexes::RANKLEPITCH, "rle5"},
-  {nao_command_msgs::msg::JointIndexes::RANKLEROLL, "rle6"},
-  {nao_command_msgs::msg::JointIndexes::RSHOULDERPITCH, "rae1"},
-  {nao_command_msgs::msg::JointIndexes::RSHOULDERROLL, "rae2"},
-  {nao_command_msgs::msg::JointIndexes::RELBOWYAW, "rae3"},
-  {nao_command_msgs::msg::JointIndexes::RELBOWROLL, "rae4"},
+  {nao_lola_command_msgs::msg::JointIndexes::HEADYAW, "he1"},
+  {nao_lola_command_msgs::msg::JointIndexes::HEADPITCH, "he2"},
+  {nao_lola_command_msgs::msg::JointIndexes::LSHOULDERPITCH, "lae1"},
+  {nao_lola_command_msgs::msg::JointIndexes::LSHOULDERROLL, "lae2"},
+  {nao_lola_command_msgs::msg::JointIndexes::LELBOWYAW, "lae3"},
+  {nao_lola_command_msgs::msg::JointIndexes::LELBOWROLL, "lae4"},
+  {nao_lola_command_msgs::msg::JointIndexes::LHIPYAWPITCH, "lle1"},
+  {nao_lola_command_msgs::msg::JointIndexes::LHIPROLL, "lle2"},
+  {nao_lola_command_msgs::msg::JointIndexes::LHIPPITCH, "lle3"},
+  {nao_lola_command_msgs::msg::JointIndexes::LKNEEPITCH, "lle4"},
+  {nao_lola_command_msgs::msg::JointIndexes::LANKLEPITCH, "lle5"},
+  {nao_lola_command_msgs::msg::JointIndexes::LANKLEROLL, "lle6"},
+  {nao_lola_command_msgs::msg::JointIndexes::RHIPROLL, "rle2"},
+  {nao_lola_command_msgs::msg::JointIndexes::RHIPPITCH, "rle3"},
+  {nao_lola_command_msgs::msg::JointIndexes::RKNEEPITCH, "rle4"},
+  {nao_lola_command_msgs::msg::JointIndexes::RANKLEPITCH, "rle5"},
+  {nao_lola_command_msgs::msg::JointIndexes::RANKLEROLL, "rle6"},
+  {nao_lola_command_msgs::msg::JointIndexes::RSHOULDERPITCH, "rae1"},
+  {nao_lola_command_msgs::msg::JointIndexes::RSHOULDERROLL, "rae2"},
+  {nao_lola_command_msgs::msg::JointIndexes::RELBOWYAW, "rae3"},
+  {nao_lola_command_msgs::msg::JointIndexes::RELBOWROLL, "rae4"},
 };
 
 std::vector<int> naoJointsToInvert = {
-  nao_command_msgs::msg::JointIndexes::HEADPITCH,
-  nao_command_msgs::msg::JointIndexes::LSHOULDERPITCH,
-  nao_command_msgs::msg::JointIndexes::LHIPPITCH,
-  nao_command_msgs::msg::JointIndexes::LKNEEPITCH,
-  nao_command_msgs::msg::JointIndexes::LANKLEPITCH,
-  nao_command_msgs::msg::JointIndexes::RHIPPITCH,
-  nao_command_msgs::msg::JointIndexes::RKNEEPITCH,
-  nao_command_msgs::msg::JointIndexes::RANKLEPITCH,
-  nao_command_msgs::msg::JointIndexes::RSHOULDERPITCH};
+  nao_lola_command_msgs::msg::JointIndexes::HEADPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::LSHOULDERPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::LHIPPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::LKNEEPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::LANKLEPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::RHIPPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::RKNEEPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::RANKLEPITCH,
+  nao_lola_command_msgs::msg::JointIndexes::RSHOULDERPITCH};
 
 std::vector<rcss3d_agent_msgs::msg::HingeJointVel> getHingeJointVels(
   const NaoJointVelocities & naoJointVelocities)
@@ -95,7 +95,7 @@ std::vector<rcss3d_agent_msgs::msg::HingeJointVel> getHingeJointVels(
     simJointVelocity.ax = naoJointVelocity;
     simJointVelocities.push_back(simJointVelocity);
 
-    if (i == nao_command_msgs::msg::JointIndexes::LHIPYAWPITCH) {
+    if (i == nao_lola_command_msgs::msg::JointIndexes::LHIPYAWPITCH) {
       rcss3d_agent_msgs::msg::HingeJointVel rhyp;
       rhyp.name = "rle1";
       rhyp.ax = naoJointVelocity;

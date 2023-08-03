@@ -17,10 +17,10 @@
 
 #include <vector>
 
-#include "nao_sensor_msgs/msg/joint_positions.hpp"
-#include "nao_sensor_msgs/msg/accelerometer.hpp"
-#include "nao_sensor_msgs/msg/gyroscope.hpp"
-#include "nao_sensor_msgs/msg/fsr.hpp"
+#include "nao_lola_sensor_msgs/msg/joint_positions.hpp"
+#include "nao_lola_sensor_msgs/msg/accelerometer.hpp"
+#include "nao_lola_sensor_msgs/msg/gyroscope.hpp"
+#include "nao_lola_sensor_msgs/msg/fsr.hpp"
 #include "rcss3d_agent_msgs/msg/accelerometer.hpp"
 #include "rcss3d_agent_msgs/msg/gyro_rate.hpp"
 #include "rcss3d_agent_msgs/msg/hinge_joint_pos.hpp"
@@ -31,16 +31,16 @@ namespace rcss3d_nao
 namespace sim_to_nao
 {
 
-nao_sensor_msgs::msg::JointPositions getJointPositions(
+nao_lola_sensor_msgs::msg::JointPositions getJointPositions(
   const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & simJoints);
 
-nao_sensor_msgs::msg::Accelerometer getAccelerometer(
+nao_lola_sensor_msgs::msg::Accelerometer getAccelerometer(
   const rcss3d_agent_msgs::msg::Accelerometer & accelerometer);
 
-nao_sensor_msgs::msg::Gyroscope getGyroscope(
+nao_lola_sensor_msgs::msg::Gyroscope getGyroscope(
   const rcss3d_agent_msgs::msg::GyroRate & gyroRate);
 
-nao_sensor_msgs::msg::FSR getFSR(
+nao_lola_sensor_msgs::msg::FSR getFSR(
   const rcss3d_agent_msgs::msg::ForceResistance & leftForceResistance,
   const rcss3d_agent_msgs::msg::ForceResistance & rightForceResistance);
 

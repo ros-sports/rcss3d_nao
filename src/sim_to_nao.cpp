@@ -17,7 +17,7 @@
 #include <vector>
 #include <utility>
 #include "sim_to_nao.hpp"
-#include "nao_sensor_msgs/msg/joint_indexes.hpp"
+#include "nao_lola_sensor_msgs/msg/joint_indexes.hpp"
 #include "angle_conversion.hpp"
 
 namespace rcss3d_nao
@@ -27,43 +27,43 @@ namespace sim_to_nao
 
 // Ignore rlj1 (RHipYawPitch) because its not an actual joint on the Nao
 std::map<std::string, int> name_sim_to_nao = {
-  {"hj1", nao_sensor_msgs::msg::JointIndexes::HEADYAW},
-  {"hj2", nao_sensor_msgs::msg::JointIndexes::HEADPITCH},
-  {"laj1", nao_sensor_msgs::msg::JointIndexes::LSHOULDERPITCH},
-  {"laj2", nao_sensor_msgs::msg::JointIndexes::LSHOULDERROLL},
-  {"laj3", nao_sensor_msgs::msg::JointIndexes::LELBOWYAW},
-  {"laj4", nao_sensor_msgs::msg::JointIndexes::LELBOWROLL},
-  {"llj1", nao_sensor_msgs::msg::JointIndexes::LHIPYAWPITCH},
-  {"llj2", nao_sensor_msgs::msg::JointIndexes::LHIPROLL},
-  {"llj3", nao_sensor_msgs::msg::JointIndexes::LHIPPITCH},
-  {"llj4", nao_sensor_msgs::msg::JointIndexes::LKNEEPITCH},
-  {"llj5", nao_sensor_msgs::msg::JointIndexes::LANKLEPITCH},
-  {"llj6", nao_sensor_msgs::msg::JointIndexes::LANKLEROLL},
-  {"rlj2", nao_sensor_msgs::msg::JointIndexes::RHIPROLL},
-  {"rlj3", nao_sensor_msgs::msg::JointIndexes::RHIPPITCH},
-  {"rlj4", nao_sensor_msgs::msg::JointIndexes::RKNEEPITCH},
-  {"rlj5", nao_sensor_msgs::msg::JointIndexes::RANKLEPITCH},
-  {"rlj6", nao_sensor_msgs::msg::JointIndexes::RANKLEROLL},
-  {"raj1", nao_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH},
-  {"raj2", nao_sensor_msgs::msg::JointIndexes::RSHOULDERROLL},
-  {"raj3", nao_sensor_msgs::msg::JointIndexes::RELBOWYAW},
-  {"raj4", nao_sensor_msgs::msg::JointIndexes::RELBOWROLL}};
+  {"hj1", nao_lola_sensor_msgs::msg::JointIndexes::HEADYAW},
+  {"hj2", nao_lola_sensor_msgs::msg::JointIndexes::HEADPITCH},
+  {"laj1", nao_lola_sensor_msgs::msg::JointIndexes::LSHOULDERPITCH},
+  {"laj2", nao_lola_sensor_msgs::msg::JointIndexes::LSHOULDERROLL},
+  {"laj3", nao_lola_sensor_msgs::msg::JointIndexes::LELBOWYAW},
+  {"laj4", nao_lola_sensor_msgs::msg::JointIndexes::LELBOWROLL},
+  {"llj1", nao_lola_sensor_msgs::msg::JointIndexes::LHIPYAWPITCH},
+  {"llj2", nao_lola_sensor_msgs::msg::JointIndexes::LHIPROLL},
+  {"llj3", nao_lola_sensor_msgs::msg::JointIndexes::LHIPPITCH},
+  {"llj4", nao_lola_sensor_msgs::msg::JointIndexes::LKNEEPITCH},
+  {"llj5", nao_lola_sensor_msgs::msg::JointIndexes::LANKLEPITCH},
+  {"llj6", nao_lola_sensor_msgs::msg::JointIndexes::LANKLEROLL},
+  {"rlj2", nao_lola_sensor_msgs::msg::JointIndexes::RHIPROLL},
+  {"rlj3", nao_lola_sensor_msgs::msg::JointIndexes::RHIPPITCH},
+  {"rlj4", nao_lola_sensor_msgs::msg::JointIndexes::RKNEEPITCH},
+  {"rlj5", nao_lola_sensor_msgs::msg::JointIndexes::RANKLEPITCH},
+  {"rlj6", nao_lola_sensor_msgs::msg::JointIndexes::RANKLEROLL},
+  {"raj1", nao_lola_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH},
+  {"raj2", nao_lola_sensor_msgs::msg::JointIndexes::RSHOULDERROLL},
+  {"raj3", nao_lola_sensor_msgs::msg::JointIndexes::RELBOWYAW},
+  {"raj4", nao_lola_sensor_msgs::msg::JointIndexes::RELBOWROLL}};
 
 std::vector<int> naoJointsToInvert = {
-  nao_sensor_msgs::msg::JointIndexes::HEADPITCH,
-  nao_sensor_msgs::msg::JointIndexes::LSHOULDERPITCH,
-  nao_sensor_msgs::msg::JointIndexes::LHIPPITCH,
-  nao_sensor_msgs::msg::JointIndexes::LKNEEPITCH,
-  nao_sensor_msgs::msg::JointIndexes::LANKLEPITCH,
-  nao_sensor_msgs::msg::JointIndexes::RHIPPITCH,
-  nao_sensor_msgs::msg::JointIndexes::RKNEEPITCH,
-  nao_sensor_msgs::msg::JointIndexes::RANKLEPITCH,
-  nao_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH};
+  nao_lola_sensor_msgs::msg::JointIndexes::HEADPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::LSHOULDERPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::LHIPPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::LKNEEPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::LANKLEPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::RHIPPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::RKNEEPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::RANKLEPITCH,
+  nao_lola_sensor_msgs::msg::JointIndexes::RSHOULDERPITCH};
 
-nao_sensor_msgs::msg::JointPositions getJointPositions(
+nao_lola_sensor_msgs::msg::JointPositions getJointPositions(
   const std::vector<rcss3d_agent_msgs::msg::HingeJointPos> & simJoints)
 {
-  auto naoJoints = nao_sensor_msgs::msg::JointPositions{};
+  auto naoJoints = nao_lola_sensor_msgs::msg::JointPositions{};
 
   for (auto & sim_joint : simJoints) {
     auto it = name_sim_to_nao.find(sim_joint.name);
@@ -88,27 +88,27 @@ nao_sensor_msgs::msg::JointPositions getJointPositions(
   return naoJoints;
 }
 
-nao_sensor_msgs::msg::Accelerometer getAccelerometer(
+nao_lola_sensor_msgs::msg::Accelerometer getAccelerometer(
   const rcss3d_agent_msgs::msg::Accelerometer & accelerometer)
 {
-  nao_sensor_msgs::msg::Accelerometer acc;
+  nao_lola_sensor_msgs::msg::Accelerometer acc;
   acc.x = accelerometer.y;
   acc.y = -accelerometer.x;
   acc.z = accelerometer.z;
   return acc;
 }
 
-nao_sensor_msgs::msg::Gyroscope getGyroscope(
+nao_lola_sensor_msgs::msg::Gyroscope getGyroscope(
   const rcss3d_agent_msgs::msg::GyroRate & gyroRate)
 {
-  nao_sensor_msgs::msg::Gyroscope gyr;
+  nao_lola_sensor_msgs::msg::Gyroscope gyr;
   gyr.x = angle_conversion::deg2rad(gyroRate.y);
   gyr.y = -angle_conversion::deg2rad(gyroRate.x);
   gyr.z = angle_conversion::deg2rad(gyroRate.z);
   return gyr;
 }
 
-nao_sensor_msgs::msg::FSR getFSR(
+nao_lola_sensor_msgs::msg::FSR getFSR(
   const rcss3d_agent_msgs::msg::ForceResistance & leftForceResistance,
   const rcss3d_agent_msgs::msg::ForceResistance & rightForceResistance)
 {
@@ -116,7 +116,7 @@ nao_sensor_msgs::msg::FSR getFSR(
   // Future improvement to get more accurate readings would be good, but this
   // is good enough for now to simply figure out which foot is experiencing
   // more of the robot's weight.
-  nao_sensor_msgs::msg::FSR fsr;
+  nao_lola_sensor_msgs::msg::FSR fsr;
   fsr.l_foot_front_left = leftForceResistance.fz;
   fsr.l_foot_front_right = leftForceResistance.fz;
   fsr.l_foot_back_left = leftForceResistance.fz;
