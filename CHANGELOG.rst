@@ -2,6 +2,11 @@
 Changelog for package rcss3d_nao
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Migrate to nao_lola_sensor_msgs and nao_lola_command_msgs (`#20 <https://github.com/ros-sports/rcss3d_nao/issues/20>`_)
+* Contributors: Kenji Brameld
+
 0.1.1 (2022-07-21)
 ------------------
 * Remove source build of rcss3d_agent
