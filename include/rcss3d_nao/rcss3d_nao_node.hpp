@@ -20,12 +20,12 @@
 #include <string>
 
 #include "rclcpp/node.hpp"
-#include "nao_command_msgs/msg/joint_positions.hpp"
-#include "nao_sensor_msgs/msg/accelerometer.hpp"
-#include "nao_sensor_msgs/msg/angle.hpp"
-#include "nao_sensor_msgs/msg/fsr.hpp"
-#include "nao_sensor_msgs/msg/gyroscope.hpp"
-#include "nao_sensor_msgs/msg/joint_positions.hpp"
+#include "nao_lola_command_msgs/msg/joint_positions.hpp"
+#include "nao_lola_sensor_msgs/msg/accelerometer.hpp"
+#include "nao_lola_sensor_msgs/msg/angle.hpp"
+#include "nao_lola_sensor_msgs/msg/fsr.hpp"
+#include "nao_lola_sensor_msgs/msg/gyroscope.hpp"
+#include "nao_lola_sensor_msgs/msg/joint_positions.hpp"
 #include "rcss3d_agent_msgs/msg/percept.hpp"
 #include "rcss3d_agent_msgs/msg/beam.hpp"
 #include "soccer_vision_3d_msgs/msg/ball_array.hpp"
@@ -60,17 +60,17 @@ private:
   std::unique_ptr<rcss3d_nao::ComplementaryFilter> complementaryFilter;
   std::unique_ptr<rcss3d_nao::NaoJointsPid> naoJointsPid;
 
-  rclcpp::Publisher<nao_sensor_msgs::msg::Accelerometer>::SharedPtr accelerometerPub;
-  rclcpp::Publisher<nao_sensor_msgs::msg::Angle>::SharedPtr anglePub;
-  rclcpp::Publisher<nao_sensor_msgs::msg::FSR>::SharedPtr fsrPub;
-  rclcpp::Publisher<nao_sensor_msgs::msg::Gyroscope>::SharedPtr gyroscopePub;
-  rclcpp::Publisher<nao_sensor_msgs::msg::JointPositions>::SharedPtr jointPositionsPub;
+  rclcpp::Publisher<nao_lola_sensor_msgs::msg::Accelerometer>::SharedPtr accelerometerPub;
+  rclcpp::Publisher<nao_lola_sensor_msgs::msg::Angle>::SharedPtr anglePub;
+  rclcpp::Publisher<nao_lola_sensor_msgs::msg::FSR>::SharedPtr fsrPub;
+  rclcpp::Publisher<nao_lola_sensor_msgs::msg::Gyroscope>::SharedPtr gyroscopePub;
+  rclcpp::Publisher<nao_lola_sensor_msgs::msg::JointPositions>::SharedPtr jointPositionsPub;
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::BallArray>::SharedPtr ballArrayPub;
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::GoalpostArray>::SharedPtr goalpostArrayPub;
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::MarkingArray>::SharedPtr markingArrayPub;
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::RobotArray>::SharedPtr robotArrayPub;
 
-  rclcpp::Subscription<nao_command_msgs::msg::JointPositions>::SharedPtr jointPositionsSub;
+  rclcpp::Subscription<nao_lola_command_msgs::msg::JointPositions>::SharedPtr jointPositionsSub;
   rclcpp::Subscription<rcss3d_agent_msgs::msg::Beam>::SharedPtr beamSub;
 
   void perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept);

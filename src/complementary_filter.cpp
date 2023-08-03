@@ -26,9 +26,9 @@
 namespace rcss3d_nao
 {
 
-nao_sensor_msgs::msg::Angle ComplementaryFilter::update(
-  const nao_sensor_msgs::msg::Accelerometer & acc,
-  const nao_sensor_msgs::msg::Gyroscope & gyr,
+nao_lola_sensor_msgs::msg::Angle ComplementaryFilter::update(
+  const nao_lola_sensor_msgs::msg::Accelerometer & acc,
+  const nao_lola_sensor_msgs::msg::Gyroscope & gyr,
   const rclcpp::Time & time
 )
 {
@@ -53,9 +53,9 @@ nao_sensor_msgs::msg::Angle ComplementaryFilter::update(
   return getAngle();
 }
 
-nao_sensor_msgs::msg::Angle ComplementaryFilter::getAngle()
+nao_lola_sensor_msgs::msg::Angle ComplementaryFilter::getAngle()
 {
-  nao_sensor_msgs::msg::Angle angles;
+  nao_lola_sensor_msgs::msg::Angle angles;
   angles.x = x_;
   angles.y = y_;
   return angles;
