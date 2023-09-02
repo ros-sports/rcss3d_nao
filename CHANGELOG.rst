@@ -2,8 +2,8 @@
 Changelog for package rcss3d_nao
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.0 (2023-09-02)
+------------------
 * Add x,y,theta parameters to easily set initial position of robot
 * Contributors: Kenji Brameld, ijnek
 
