@@ -2,6 +2,11 @@
 Changelog for package rcss3d_nao
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add x,y,theta parameters to easily set initial position of robot
+* Contributors: Kenji Brameld, ijnek
+
 1.0.0 (2023-08-03)
 ------------------
 * Migrate to nao_lola_sensor_msgs and nao_lola_command_msgs (`#20 <https://github.com/ros-sports/rcss3d_nao/issues/20>`_)
