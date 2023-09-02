@@ -74,6 +74,7 @@ private:
   rclcpp::Subscription<rcss3d_agent_msgs::msg::Beam>::SharedPtr beamSub;
 
   void perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept);
+  void beamToInitialPose(double x, double y, double theta);
 };
 
 }  // namespace rcss3d_nao
