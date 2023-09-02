@@ -36,10 +36,10 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
   std::string rcss3d_host = this->declare_parameter<std::string>("rcss3d/host", "127.0.0.1");
   int rcss3d_port = this->declare_parameter<int>("rcss3d/port", 3100);
   std::string team = this->declare_parameter<std::string>("team", "Anonymous");
+  double theta = this->declare_parameter<double>("theta", 0.0);
   int unum = this->declare_parameter<int>("unum", 0);
   double x = this->declare_parameter<double>("x", 0.0);
   double y = this->declare_parameter<double>("y", 0.0);
-  double theta = this->declare_parameter<double>("theta", 0.0);
 
   // Create Rcss3dAgent
   params = std::make_unique<rcss3d_agent::Params>(model, rcss3d_host, rcss3d_port, team, unum);
