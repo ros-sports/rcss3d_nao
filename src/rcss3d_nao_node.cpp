@@ -37,6 +37,9 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
   int rcss3d_port = this->declare_parameter<int>("rcss3d/port", 3100);
   std::string team = this->declare_parameter<std::string>("team", "Anonymous");
   int unum = this->declare_parameter<int>("unum", 0);
+  double x = this->declare_parameter<double>("x", 0.0);
+  double y = this->declare_parameter<double>("y", 0.0);
+  double theta = this->declare_parameter<double>("theta", 0.0);
 
   // Create Rcss3dAgent
   params = std::make_unique<rcss3d_agent::Params>(model, rcss3d_host, rcss3d_port, team, unum);
@@ -80,6 +83,9 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
     [this](rcss3d_agent_msgs::msg::Beam::SharedPtr cmd) {
       rcss3dAgent->sendBeam(*cmd);
     });
+
+  // Beam robot
+  beamToInitialPose(x, y, theta);
 }
 
 Rcss3dNaoNode::~Rcss3dNaoNode()
@@ -170,6 +176,15 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
     robotArrayPub->publish(
       rcss3d_agent_msgs_to_soccer_interfaces::getRobotArray(vision.players));
   }
+}
+
+void Rcss3dNaoNode::beamToInitialPose(double x, double y, double theta)
+{
+  rcss3d_agent_msgs::msg::Beam beam;
+  beam.x = x;
+  beam.y = y;
+  beam.rot = theta;
+  rcss3dAgent->sendBeam(beam);
 }
 
 }  // namespace rcss3d_nao
