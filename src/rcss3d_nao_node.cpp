@@ -20,6 +20,7 @@
 #include "sim_to_nao.hpp"
 #include "nao_to_sim.hpp"
 #include "complementary_filter.hpp"
+#include "conversion.hpp"
 #include "nao_joints_pid.hpp"
 
 namespace rcss3d_nao
@@ -40,6 +41,8 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
   int unum = this->declare_parameter<int>("unum", 0);
   double x = this->declare_parameter<double>("x", 0.0);
   double y = this->declare_parameter<double>("y", 0.0);
+  publishImu = this->declare_parameter<bool>("publish_imu", true);
+  publishJointStates = this->declare_parameter<bool>("publish_joint_states", true);
 
   // Create Rcss3dAgent
   params = std::make_unique<rcss3d_agent::Params>(model, rcss3d_host, rcss3d_port, team, unum);
@@ -64,6 +67,14 @@ Rcss3dNaoNode::Rcss3dNaoNode(const rclcpp::NodeOptions & options)
     create_publisher<soccer_vision_3d_msgs::msg::MarkingArray>("soccer_vision_3d/markings", 10);
   robotArrayPub =
     create_publisher<soccer_vision_3d_msgs::msg::RobotArray>("soccer_vision_3d/robots", 10);
+
+  if (publishImu) {
+    imuPub = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
+  }
+
+  if (publishJointStates) {
+    jointStatesPub = create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
+  }
 
   // Register callback
   rcss3dAgent->registerPerceptCallback(
@@ -175,6 +186,25 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
     // Robot
     robotArrayPub->publish(
       rcss3d_agent_msgs_to_soccer_interfaces::getRobotArray(vision.players));
+  }
+
+  // Get time stamp
+  auto stamp = now();
+
+  // IMU
+  if (publishImu) {
+    if (gyrFound && accFound) {
+      auto imu = conversion::toImu(acc, gyr);
+      imu.header.stamp = stamp;
+      imuPub->publish(imu);
+    }
+  }
+
+  // Joint States
+  if (publishJointStates) {
+    auto jointState = conversion::toJointState(joints);
+    jointState.header.stamp = stamp;
+    jointStatesPub->publish(jointState);
   }
 }
 

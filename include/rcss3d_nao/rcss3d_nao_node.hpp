@@ -28,6 +28,8 @@
 #include "nao_lola_sensor_msgs/msg/joint_positions.hpp"
 #include "rcss3d_agent_msgs/msg/percept.hpp"
 #include "rcss3d_agent_msgs/msg/beam.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/joint_state.hpp"
 #include "soccer_vision_3d_msgs/msg/ball_array.hpp"
 #include "soccer_vision_3d_msgs/msg/goalpost_array.hpp"
 #include "soccer_vision_3d_msgs/msg/marking_array.hpp"
@@ -69,12 +71,17 @@ private:
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::GoalpostArray>::SharedPtr goalpostArrayPub;
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::MarkingArray>::SharedPtr markingArrayPub;
   rclcpp::Publisher<soccer_vision_3d_msgs::msg::RobotArray>::SharedPtr robotArrayPub;
+  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPub;
+  rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr jointStatesPub;
 
   rclcpp::Subscription<nao_lola_command_msgs::msg::JointPositions>::SharedPtr jointPositionsSub;
   rclcpp::Subscription<rcss3d_agent_msgs::msg::Beam>::SharedPtr beamSub;
 
   void perceptCallback(const rcss3d_agent_msgs::msg::Percept & percept);
   void beamToInitialPose(double x, double y, double theta);
+
+  bool publishImu;
+  bool publishJointStates;
 };
 
 }  // namespace rcss3d_nao
