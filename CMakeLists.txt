@@ -11,30 +11,33 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rcss3d_agent REQUIRED)
-find_package(rcss3d_agent_msgs_to_soccer_interfaces REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(nao_lola_command_msgs REQUIRED)
 find_package(nao_lola_sensor_msgs REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(rcss3d_agent REQUIRED)
+find_package(rcss3d_agent_msgs_to_soccer_interfaces REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(soccer_vision_3d_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
-  rcss3d_agent
-  rcss3d_agent_msgs_to_soccer_interfaces
+  geometry_msgs
   nao_lola_command_msgs
   nao_lola_sensor_msgs
   rclcpp_components
-  soccer_vision_3d_msgs
-  geometry_msgs)
+  rcss3d_agent
+  rcss3d_agent_msgs_to_soccer_interfaces
+  sensor_msgs
+  soccer_vision_3d_msgs)
 
 # Build
 add_library(${PROJECT_NAME}_node SHARED
-  src/rcss3d_nao_node.cpp
-  src/sim_to_nao.cpp
-  src/nao_to_sim.cpp
   src/complementary_filter.cpp
-  src/nao_joints_pid.cpp)
+  src/conversion.cpp
+  src/nao_joints_pid.cpp
+  src/nao_to_sim.cpp
+  src/rcss3d_nao_node.cpp
+  src/sim_to_nao.cpp)
 target_include_directories(rcss3d_nao_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
