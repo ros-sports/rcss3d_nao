@@ -181,7 +181,7 @@ void Rcss3dNaoNode::perceptCallback(const rcss3d_agent_msgs::msg::Percept & perc
 
     // Marking
     markingArrayPub->publish(
-      rcss3d_agent_msgs_to_soccer_interfaces::getMarkingArray(vision.field_lines));
+      rcss3d_agent_msgs_to_soccer_interfaces::getMarkingArray(vision.field_lines, vision.field_features));
 
     // Robot
     robotArrayPub->publish(
